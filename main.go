@@ -3,12 +3,18 @@ package main
 import (
 	"fmt"
 	"payroll/app"
+	"payroll/model/domain"
+	"payroll/repository/repositoryimpl"
 )
 
 func main() {
 	db := app.NewDB()
 
-	if db != nil {
-		fmt.Println("Hello")
+	role := &domain.Role{
+		Name: "admin",
 	}
+
+	roleRepository := repositoryimpl.NewRoleRepository(db)
+	roleRepository.Create(role)
+	fmt.Println("role : ", role)
 }
