@@ -3,18 +3,19 @@ package main
 import (
 	"fmt"
 	"payroll/app"
-	"payroll/model/domain"
 	"payroll/repository/repositoryimpl"
+	"payroll/service/serviceimpl"
+
+	"github.com/go-playground/validator/v10"
 )
 
 func main() {
+	validate := validator.New()
 	db := app.NewDB()
-
-	role := &domain.Role{
-		Name: "admin",
-	}
-
 	roleRepository := repositoryimpl.NewRoleRepository(db)
-	roleRepository.Create(role)
-	fmt.Println("role : ", role)
+
+	roleService := serviceimpl.NewRoleServiceImpl(roleRepository, validate)
+	response := roleService.FindById(2)
+
+	fmt.Println("response : ", response)
 }
