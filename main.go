@@ -2,6 +2,7 @@ package main
 
 import (
 	"payroll/app"
+	"payroll/constant"
 	"payroll/endpoint"
 	"payroll/exception"
 	"payroll/helper"
@@ -20,7 +21,7 @@ func main() {
 
 	endpoint.SetRoleEndpoint(fiberApp, db, validate)
 
-	err := fiberApp.Listen("localhost:3000")
+	err := fiberApp.Listen(constant.APP_HOST)
 	helper.PanicIfError(err)
 }
 

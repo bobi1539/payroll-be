@@ -13,5 +13,9 @@ func ErrorHandler(ctx fiber.Ctx, err error) error {
 		code = e.Code
 	}
 
-	return ctx.Status(code).JSON(helper.BuildErrorResponse(500, err.Error()))
+	if e, ok := err.(ErrorBusiness); ok {
+		code = e.Code
+	}
+
+	return ctx.Status(code).JSON(helper.BuildErrorResponse(code, err.Error()))
 }

@@ -1,6 +1,7 @@
 package serviceimpl
 
 import (
+	"payroll/exception"
 	"payroll/helper"
 	"payroll/model/domain"
 	"payroll/model/request"
@@ -9,6 +10,7 @@ import (
 	"payroll/service"
 
 	"github.com/go-playground/validator/v10"
+	"github.com/gofiber/fiber/v3"
 )
 
 type RoleServiceImpl struct {
@@ -53,7 +55,7 @@ func (roleService *RoleServiceImpl) FindById(id int64) response.RoleResponse {
 
 func (roleService *RoleServiceImpl) FindByIdDomain(id int64) *domain.Role {
 	role, err := roleService.RoleRepository.FindById(id)
-	helper.PanicIfError(err)
+	exception.PanicErrorBusiness(fiber.StatusBadRequest, err)
 	return role
 }
 
