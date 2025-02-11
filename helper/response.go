@@ -3,11 +3,13 @@ package helper
 import (
 	"payroll/constant"
 	"payroll/model/response"
+
+	"github.com/gofiber/fiber/v3"
 )
 
 func BuildSuccessResponse(data any) response.WebResponse {
 	return response.WebResponse{
-		Code:    200,
+		Code:    fiber.StatusOK,
 		Message: constant.SUCCESS,
 		Data:    data,
 	}
