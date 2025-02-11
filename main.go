@@ -1,21 +1,21 @@
 package main
 
 import (
-	"fmt"
 	"payroll/app"
-	"payroll/repository/repositoryimpl"
-	"payroll/service/serviceimpl"
+	"payroll/endpoint"
+	"payroll/helper"
 
 	"github.com/go-playground/validator/v10"
+	"github.com/gofiber/fiber/v3"
 )
 
 func main() {
-	validate := validator.New()
+	fiberApp := fiber.New()
 	db := app.NewDB()
-	roleRepository := repositoryimpl.NewRoleRepository(db)
+	validate := validator.New()
 
-	roleService := serviceimpl.NewRoleServiceImpl(roleRepository, validate)
-	response := roleService.FindById(2)
+	endpoint.SetRoleEndpoint(fiberApp, db, validate)
 
-	fmt.Println("response : ", response)
+	err := fiberApp.Listen("localhost:3000")
+	helper.PanicIfError(err)
 }

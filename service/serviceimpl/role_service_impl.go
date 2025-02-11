@@ -16,10 +16,7 @@ type RoleServiceImpl struct {
 	Validate       *validator.Validate
 }
 
-func NewRoleServiceImpl(
-	roleRepository repository.RoleRepository,
-	validate *validator.Validate,
-) service.RoleService {
+func NewRoleService(roleRepository repository.RoleRepository, validate *validator.Validate) service.RoleService {
 	return &RoleServiceImpl{
 		RoleRepository: roleRepository,
 		Validate:       validate,
@@ -31,8 +28,8 @@ func (roleService *RoleServiceImpl) Create(request *request.RoleRequest) respons
 
 	role := &domain.Role{}
 	role.Name = request.Name
-	service.SetCreated(&role.BaseDomain)
-	service.SetUpdated(&role.BaseDomain)
+	helper.SetCreated(&role.BaseDomain)
+	helper.SetUpdated(&role.BaseDomain)
 
 	role = roleService.RoleRepository.Create(role)
 	return response.ToRoleResponse(role)
@@ -43,7 +40,7 @@ func (roleService *RoleServiceImpl) Update(id int64, request *request.RoleReques
 
 	role := roleService.FindByIdDomain(id)
 	role.Name = request.Name
-	service.SetUpdated(&role.BaseDomain)
+	helper.SetUpdated(&role.BaseDomain)
 
 	role = roleService.RoleRepository.Update(role)
 	return response.ToRoleResponse(role)
