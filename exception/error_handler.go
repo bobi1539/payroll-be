@@ -3,10 +3,10 @@ package exception
 import (
 	"payroll/helper"
 
-	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v2"
 )
 
-func ErrorHandler(ctx fiber.Ctx, err error) error {
+func ErrorHandler(ctx *fiber.Ctx, err error) error {
 	code := fiber.StatusInternalServerError
 
 	if e, ok := err.(*fiber.Error); ok {

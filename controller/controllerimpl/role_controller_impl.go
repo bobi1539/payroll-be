@@ -7,7 +7,7 @@ import (
 	"payroll/model/request"
 	"payroll/service"
 
-	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v2"
 )
 
 type RoleControllerImpl struct {
@@ -20,14 +20,14 @@ func NewRoleController(roleService service.RoleService) controller.RoleControlle
 	}
 }
 
-func (roleController *RoleControllerImpl) Create(ctx fiber.Ctx) error {
+func (roleController *RoleControllerImpl) Create(ctx *fiber.Ctx) error {
 	request := helper.BodyParser[request.RoleRequest](ctx)
 
 	response := roleController.RoleService.Create(request)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 
-func (roleController *RoleControllerImpl) Update(ctx fiber.Ctx) error {
+func (roleController *RoleControllerImpl) Update(ctx *fiber.Ctx) error {
 	id := helper.GetParamId(ctx, constant.ROLE_ID)
 	request := helper.BodyParser[request.RoleRequest](ctx)
 
@@ -35,7 +35,7 @@ func (roleController *RoleControllerImpl) Update(ctx fiber.Ctx) error {
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 
-func (roleController *RoleControllerImpl) FindById(ctx fiber.Ctx) error {
+func (roleController *RoleControllerImpl) FindById(ctx *fiber.Ctx) error {
 	id := helper.GetParamId(ctx, constant.ROLE_ID)
 
 	response := roleController.RoleService.FindById(id)

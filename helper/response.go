@@ -4,7 +4,7 @@ import (
 	"payroll/constant"
 	"payroll/model/response"
 
-	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v2"
 )
 
 func BuildSuccessResponse(data any) response.WebResponse {

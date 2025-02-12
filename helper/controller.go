@@ -3,17 +3,17 @@ package helper
 import (
 	"strconv"
 
-	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v2"
 )
 
-func BodyParser[T any](ctx fiber.Ctx) *T {
+func BodyParser[T any](ctx *fiber.Ctx) *T {
 	request := new(T)
-	err := ctx.Bind().Body(request)
+	err := ctx.BodyParser(request)
 	PanicIfError(err)
 	return request
 }
 
-func GetParamId(ctx fiber.Ctx, paramName string) int64 {
+func GetParamId(ctx *fiber.Ctx, paramName string) int64 {
 	id := ctx.Params(paramName)
 
 	idInt, err := strconv.ParseInt(id, 10, 64)

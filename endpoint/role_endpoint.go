@@ -10,7 +10,7 @@ import (
 	"payroll/service/serviceimpl"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
 
