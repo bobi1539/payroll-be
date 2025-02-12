@@ -21,7 +21,7 @@ func SetRoleEndpoint(fiberApp *fiber.App, db *gorm.DB, validate *validator.Valid
 	roleController := getRoleController(db, validate)
 
 	fiberApp.Post(ROLES, roleController.Create)
-	fiberApp.Put(ROLES, roleController.Update)
+	fiberApp.Put(ROLES_BY_ID, roleController.Update)
 	fiberApp.Get(ROLES_BY_ID, roleController.FindById)
 }
 

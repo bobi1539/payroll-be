@@ -1,0 +1,10 @@
+package endpoint
+
+import (
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/swagger"
+)
+
+func SetSwaggerEndpoint(fiberApp *fiber.App) {
+	fiberApp.Get("/swagger-ui/*", swagger.HandlerDefault)
+}

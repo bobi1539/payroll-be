@@ -20,6 +20,14 @@ func NewRoleController(roleService service.RoleService) controller.RoleControlle
 	}
 }
 
+// @Tags	Role
+// @Accept	json
+// @Produce	json
+// @Param	request 		body	request.RoleRequest	true	"Request body"
+// @Success	200	{object}	response.WebResponse{data=response.RoleResponse}
+// @Failure	400	{object}	response.WebResponse
+// @Failure	500	{object}	response.WebResponse
+// @Router	/roles			[post]
 func (roleController *RoleControllerImpl) Create(ctx *fiber.Ctx) error {
 	request := helper.BodyParser[request.RoleRequest](ctx)
 
@@ -27,6 +35,15 @@ func (roleController *RoleControllerImpl) Create(ctx *fiber.Ctx) error {
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 
+// @Tags	Role
+// @Accept	json
+// @Produce	json
+// @Param	id				path	int					true	"id"
+// @Param	request 		body	request.RoleRequest	true	"Request body"
+// @Success	200	{object}	response.WebResponse{data=response.RoleResponse}
+// @Failure	400	{object}	response.WebResponse
+// @Failure	500	{object}	response.WebResponse
+// @Router	/roles/{id}		[put]
 func (roleController *RoleControllerImpl) Update(ctx *fiber.Ctx) error {
 	id := helper.GetParamId(ctx, constant.ROLE_ID)
 	request := helper.BodyParser[request.RoleRequest](ctx)
@@ -35,6 +52,14 @@ func (roleController *RoleControllerImpl) Update(ctx *fiber.Ctx) error {
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 
+// @Tags	Role
+// @Accept	json
+// @Produce	json
+// @Param	id				path	int					true	"id"
+// @Success	200	{object}	response.WebResponse{data=response.RoleResponse}
+// @Failure	400	{object}	response.WebResponse
+// @Failure	500	{object}	response.WebResponse
+// @Router	/roles/{id} 	[get]
 func (roleController *RoleControllerImpl) FindById(ctx *fiber.Ctx) error {
 	id := helper.GetParamId(ctx, constant.ROLE_ID)
 
