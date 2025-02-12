@@ -14,8 +14,6 @@ import (
 
 func main() {
 	fiberApp := getFiberApp()
-	fiberApp.Use(recover.New())
-
 	db := app.NewDB()
 	validate := validator.New()
 
@@ -26,7 +24,9 @@ func main() {
 }
 
 func getFiberApp() *fiber.App {
-	return fiber.New(fiber.Config{
+	fiberApp := fiber.New(fiber.Config{
 		ErrorHandler: exception.ErrorHandler,
 	})
+	fiberApp.Use(recover.New())
+	return fiberApp
 }
