@@ -1,6 +1,10 @@
 package helper
 
-import "github.com/sirupsen/logrus"
+import (
+	"strings"
+
+	"github.com/sirupsen/logrus"
+)
 
 var log *logrus.Logger
 
@@ -9,4 +13,8 @@ func GetLogger() *logrus.Logger {
 		log = logrus.New()
 	}
 	return log
+}
+
+func StringQueryLike(value string) string {
+	return "%" + strings.ToLower(value) + "%"
 }

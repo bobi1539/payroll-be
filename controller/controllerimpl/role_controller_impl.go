@@ -4,6 +4,7 @@ import (
 	"payroll/constant"
 	"payroll/controller"
 	"payroll/helper"
+	"payroll/model/dto"
 	"payroll/model/request"
 	"payroll/service"
 
@@ -64,5 +65,20 @@ func (roleController *RoleControllerImpl) FindById(ctx *fiber.Ctx) error {
 	id := helper.GetParamId(ctx, constant.ROLE_ID)
 
 	response := roleController.RoleService.FindById(id)
+	return ctx.JSON(helper.BuildSuccessResponse(response))
+}
+
+// @Tags	Role
+// @Accept	json
+// @Produce	json
+// @Param   search  		query	string	false	"Search"
+// @Success	200	{object}	response.WebResponse{data=[]response.RoleResponse}
+// @Failure	400	{object}	response.WebResponse
+// @Failure	500	{object}	response.WebResponse
+// @Router	/roles			[get]
+func (roleController *RoleControllerImpl) FindAll(ctx *fiber.Ctx) error {
+	search := dto.Search{Value: ctx.Query(constant.SEARCH)}
+
+	response := roleController.RoleService.FindAll(&search)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }

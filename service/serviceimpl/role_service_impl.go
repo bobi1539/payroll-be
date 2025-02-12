@@ -4,6 +4,7 @@ import (
 	"payroll/exception"
 	"payroll/helper"
 	"payroll/model/domain"
+	"payroll/model/dto"
 	"payroll/model/request"
 	"payroll/model/response"
 	"payroll/repository"
@@ -57,6 +58,11 @@ func (roleService *RoleServiceImpl) FindByIdDomain(id int64) *domain.Role {
 	role, err := roleService.RoleRepository.FindById(id)
 	exception.PanicErrorBusiness(fiber.StatusBadRequest, err)
 	return role
+}
+
+func (roleService *RoleServiceImpl) FindAll(search *dto.Search) []response.RoleResponse {
+	roles := roleService.RoleRepository.FindAll(search)
+	return response.ToRoleResponses(roles)
 }
 
 func (roleService *RoleServiceImpl) validateRequest(roleRequest *request.RoleRequest) {
