@@ -4,9 +4,14 @@ import (
 	"payroll/helper"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/sirupsen/logrus"
 )
 
+var log *logrus.Logger = helper.GetLogger()
+
 func ErrorHandler(ctx *fiber.Ctx, err error) error {
+	log.Error("Error : ", err)
+
 	code := fiber.StatusInternalServerError
 
 	if e, ok := err.(*fiber.Error); ok {
