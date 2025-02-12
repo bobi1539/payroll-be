@@ -1,6 +1,7 @@
 package exception
 
 import (
+	"payroll/constant"
 	"payroll/helper"
 
 	"github.com/gofiber/fiber/v2"
@@ -10,7 +11,7 @@ import (
 var log *logrus.Logger = helper.GetLogger()
 
 func ErrorHandler(ctx *fiber.Ctx, err error) error {
-	log.Error("Error : ", err)
+	log.Error(constant.ERROR, err)
 
 	code := fiber.StatusInternalServerError
 
