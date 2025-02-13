@@ -14,4 +14,5 @@ type RoleService interface {
 	FindByIdDomain(id int64) *domain.Role
 	FindAll(search *dto.Search) []response.RoleResponse
 	FindAllPagination(search *dto.Search, pagination *dto.Pagination) response.PaginationResponse
+	Delete(id int64) response.RoleResponse
 }

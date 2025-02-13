@@ -73,6 +73,15 @@ func (roleService *RoleServiceImpl) FindAllPagination(search *dto.Search, pagina
 	return response.ToPaginationResponse(responses, pagination.PageNumber, pagination.PageSize, totalItem)
 }
 
+func (roleService *RoleServiceImpl) Delete(id int64) response.RoleResponse {
+	role := roleService.FindByIdDomain(id)
+	role.BaseDomain.IsDeleted = true
+	helper.SetUpdated(&role.BaseDomain)
+
+	role = roleService.RoleRepository.Update(role)
+	return response.ToRoleResponse(role)
+}
+
 func (roleService *RoleServiceImpl) validateRequest(roleRequest *request.RoleRequest) {
 	err := roleService.Validate.Struct(roleRequest)
 	helper.PanicIfError(err)

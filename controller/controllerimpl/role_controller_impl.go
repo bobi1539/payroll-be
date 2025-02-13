@@ -103,3 +103,18 @@ func (roleController *RoleControllerImpl) FindAllPagination(ctx *fiber.Ctx) erro
 	response := roleController.RoleService.FindAllPagination(&search, &pagination)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
+
+// @Tags	Role
+// @Accept	json
+// @Produce	json
+// @Param	id				path	int					true	"id"
+// @Success	200	{object}	response.WebResponse{data=response.RoleResponse}
+// @Failure	400	{object}	response.WebResponse
+// @Failure	500	{object}	response.WebResponse
+// @Router	/roles/id/{id} 	[delete]
+func (roleController *RoleControllerImpl) Delete(ctx *fiber.Ctx) error {
+	id := helper.GetParamId(ctx, constant.ROLE_ID)
+
+	response := roleController.RoleService.Delete(id)
+	return ctx.JSON(helper.BuildSuccessResponse(response))
+}

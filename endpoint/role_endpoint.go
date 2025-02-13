@@ -26,6 +26,7 @@ func SetRoleEndpoint(fiberApp *fiber.App, db *gorm.DB, validate *validator.Valid
 	fiberApp.Get(ROLES_BY_ID, roleController.FindById)
 	fiberApp.Get(ROLES_ALL, roleController.FindAll)
 	fiberApp.Get(ROLES, roleController.FindAllPagination)
+	fiberApp.Delete(ROLES_BY_ID, roleController.Delete)
 }
 
 func getRoleController(db *gorm.DB, validate *validator.Validate) controller.RoleController {
