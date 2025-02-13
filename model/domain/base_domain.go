@@ -9,5 +9,4 @@ type BaseDomain struct {
 	UpdatedBy     int64     `gorm:"column:updated_by"`
 	CreatedByName string    `gorm:"column:created_by_name"`
 	UpdatedByName string    `gorm:"column:updated_by_name"`
-	IsDeleted     bool      `gorm:"column:is_deleted"`
 }

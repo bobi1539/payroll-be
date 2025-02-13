@@ -797,9 +797,6 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
-                "isDeleted": {
-                    "type": "boolean"
-                },
                 "name": {
                     "type": "string"
                 },
@@ -828,9 +825,6 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "integer"
-                },
-                "isDeleted": {
-                    "type": "boolean"
                 },
                 "name": {
                     "type": "string"

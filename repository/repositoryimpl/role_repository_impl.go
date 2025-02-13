@@ -3,11 +3,13 @@ package repositoryimpl
 import (
 	"errors"
 	"payroll/constant"
+	"payroll/exception"
 	"payroll/helper"
 	"payroll/model/domain"
 	"payroll/model/dto"
 	"payroll/repository"
 
+	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
 
@@ -29,11 +31,16 @@ func (roleRepository *RoleRepositoryImpl) Update(role *domain.Role) *domain.Role
 	return role
 }
 
+func (roleRepository *RoleRepositoryImpl) Delete(id int64) {
+	result := roleRepository.DB.Where("id = ?", id).Delete(&domain.Role{})
+	if result.Error != nil {
+		exception.PanicErrorBusiness(fiber.StatusBadRequest, errors.New(constant.CANNOT_DELETE_THIS_DATA))
+	}
+}
+
 func (roleRepository *RoleRepositoryImpl) FindById(id int64) (*domain.Role, error) {
 	role := &domain.Role{}
-	result := roleRepository.DB.
-		Where(constant.IS_DELETED_FALSE).
-		First(role, "id = ?", id)
+	result := roleRepository.DB.First(role, "id = ?", id)
 
 	if result.Error == nil {
 		return role, nil
@@ -45,7 +52,6 @@ func (roleRepository *RoleRepositoryImpl) FindAll(search *dto.Search) []domain.R
 	var roles []domain.Role
 	roleRepository.DB.
 		Where(roleRepository.searchLike(), helper.StringQueryLike(search.Value)).
-		Where(constant.IS_DELETED_FALSE).
 		Order("id ASC").
 		Find(&roles)
 	return roles
@@ -55,7 +61,6 @@ func (roleRepository *RoleRepositoryImpl) FindAllPagination(search *dto.Search, 
 	var roles []domain.Role
 	roleRepository.DB.
 		Where(roleRepository.searchLike(), helper.StringQueryLike(search.Value)).
-		Where(constant.IS_DELETED_FALSE).
 		Order("id ASC").
 		Offset(pagination.PageNumber).
 		Limit(pagination.PageSize).
@@ -67,7 +72,6 @@ func (roleRepository *RoleRepositoryImpl) FindTotalItem() int64 {
 	var totalItem int64
 	roleRepository.DB.
 		Model(&domain.Role{}).
-		Where(constant.IS_DELETED_FALSE).
 		Count(&totalItem)
 	return totalItem
 }

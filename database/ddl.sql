@@ -7,7 +7,6 @@ CREATE TABLE public.m_role (
 	updated_by int8 NULL,
 	created_by_name varchar(255) NULL,
 	updated_by_name varchar(255) NULL,
-	is_deleted bool NULL,
 	CONSTRAINT m_role_pkey PRIMARY KEY (id)
 );
 
@@ -23,7 +22,6 @@ CREATE TABLE public.m_user (
 	updated_by int8 NULL,
 	created_by_name varchar(255) NULL,
 	updated_by_name varchar(255) NULL,
-	is_deleted bool NULL,
 	CONSTRAINT m_user_pkey PRIMARY KEY (id),
 	CONSTRAINT user_role_id FOREIGN KEY (role_id) REFERENCES public.m_role (id)
 );

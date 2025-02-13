@@ -790,9 +790,6 @@
                 "id": {
                     "type": "integer"
                 },
-                "isDeleted": {
-                    "type": "boolean"
-                },
                 "name": {
                     "type": "string"
                 },
@@ -821,9 +818,6 @@
                 },
                 "id": {
                     "type": "integer"
-                },
-                "isDeleted": {
-                    "type": "boolean"
                 },
                 "name": {
                     "type": "string"

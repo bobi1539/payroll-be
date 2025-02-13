@@ -89,7 +89,7 @@ func (userService *UserServiceImpl) FindAllPagination(search *dto.Search, pagina
 
 func (userService *UserServiceImpl) Delete(id int64) response.UserResponse {
 	user := userService.FindByIdDomain(id)
-	user.BaseDomain.IsDeleted = true
+	userService.UserRepository.Delete(id)
 	return response.ToUserResponse(user)
 }
 

@@ -58,8 +58,6 @@ definitions:
         type: string
       id:
         type: integer
-      isDeleted:
-        type: boolean
       name:
         type: string
       updatedAt:
@@ -79,8 +77,6 @@ definitions:
         type: string
       id:
         type: integer
-      isDeleted:
-        type: boolean
       name:
         type: string
       role:

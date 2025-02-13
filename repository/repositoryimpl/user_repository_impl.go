@@ -3,11 +3,13 @@ package repositoryimpl
 import (
 	"errors"
 	"payroll/constant"
+	"payroll/exception"
 	"payroll/helper"
 	"payroll/model/domain"
 	"payroll/model/dto"
 	"payroll/repository"
 
+	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
 
@@ -29,11 +31,17 @@ func (userRepository *UserRepositoryImpl) Update(user *domain.User) *domain.User
 	return user
 }
 
+func (userRepository *UserRepositoryImpl) Delete(id int64) {
+	result := userRepository.DB.Where("id = ?", id).Delete(&domain.User{})
+	if result.Error != nil {
+		exception.PanicErrorBusiness(fiber.StatusBadRequest, errors.New(constant.CANNOT_DELETE_THIS_DATA))
+	}
+}
+
 func (userRepository *UserRepositoryImpl) FindById(id int64) (*domain.User, error) {
 	user := &domain.User{}
 	result := userRepository.DB.
 		Preload(domain.ROLE).
-		Where(constant.IS_DELETED_FALSE).
 		First(&user, "id = ?", id)
 
 	if result.Error == nil {
@@ -48,7 +56,6 @@ func (userRepository *UserRepositoryImpl) FindAll(search *dto.Search) []domain.U
 	userRepository.DB.
 		Preload(domain.ROLE).
 		Where(userRepository.searchLike(), valueLike, valueLike).
-		Where(constant.IS_DELETED_FALSE).
 		Order("id ASC").
 		Find(&users)
 	return users
@@ -60,7 +67,6 @@ func (userRepository *UserRepositoryImpl) FindAllPagination(search *dto.Search, 
 	userRepository.DB.
 		Preload(domain.ROLE).
 		Where(userRepository.searchLike(), valueLike, valueLike).
-		Where(constant.IS_DELETED_FALSE).
 		Order("id ASC").
 		Offset(pagination.PageNumber).
 		Limit(pagination.PageSize).
@@ -72,7 +78,6 @@ func (userRepository *UserRepositoryImpl) FindTotalItem() int64 {
 	var totalItem int64
 	userRepository.DB.
 		Model(&domain.User{}).
-		Where(constant.IS_DELETED_FALSE).
 		Count(&totalItem)
 	return totalItem
 }

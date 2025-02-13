@@ -12,7 +12,6 @@ type BaseDomainResponse struct {
 	UpdatedBy     int64     `json:"updatedBy"`
 	CreatedByName string    `json:"createdByName"`
 	UpdatedByName string    `json:"updatedByName"`
-	IsDeleted     bool      `json:"isDeleted"`
 }
 
 func ToBaseDomainResponse(base *domain.BaseDomain) BaseDomainResponse {
@@ -23,6 +22,5 @@ func ToBaseDomainResponse(base *domain.BaseDomain) BaseDomainResponse {
 		UpdatedBy:     base.UpdatedBy,
 		CreatedByName: base.CreatedByName,
 		UpdatedByName: base.UpdatedByName,
-		IsDeleted:     base.IsDeleted,
 	}
 }

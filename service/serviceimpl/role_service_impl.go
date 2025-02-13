@@ -75,10 +75,7 @@ func (roleService *RoleServiceImpl) FindAllPagination(search *dto.Search, pagina
 
 func (roleService *RoleServiceImpl) Delete(id int64) response.RoleResponse {
 	role := roleService.FindByIdDomain(id)
-	role.BaseDomain.IsDeleted = true
-	helper.SetUpdated(&role.BaseDomain)
-
-	role = roleService.RoleRepository.Update(role)
+	roleService.RoleRepository.Delete(id)
 	return response.ToRoleResponse(role)
 }
 
