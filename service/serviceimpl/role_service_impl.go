@@ -34,8 +34,7 @@ func (roleService *RoleServiceImpl) Create(request *request.RoleRequest) respons
 	helper.SetCreated(&role.BaseDomain)
 	helper.SetUpdated(&role.BaseDomain)
 
-	role = roleService.RoleRepository.Create(role)
-	return response.ToRoleResponse(role)
+	return response.ToRoleResponse(roleService.RoleRepository.Create(role))
 }
 
 func (roleService *RoleServiceImpl) Update(id int64, request *request.RoleRequest) response.RoleResponse {
@@ -45,8 +44,7 @@ func (roleService *RoleServiceImpl) Update(id int64, request *request.RoleReques
 	role.Name = request.Name
 	helper.SetUpdated(&role.BaseDomain)
 
-	role = roleService.RoleRepository.Update(role)
-	return response.ToRoleResponse(role)
+	return response.ToRoleResponse(roleService.RoleRepository.Update(role))
 }
 
 func (roleService *RoleServiceImpl) FindById(id int64) response.RoleResponse {
