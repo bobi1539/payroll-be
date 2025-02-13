@@ -15,26 +15,31 @@ import (
 )
 
 type UserServiceImpl struct {
-	UserRepository repository.UserRepository
-	Validate       *validator.Validate
-	RoleService    service.RoleService
+	UserRepository        repository.UserRepository
+	Validate              *validator.Validate
+	RoleService           service.RoleService
+	UserValidationService service.UserValidationService
 }
 
 func NewUserService(
 	userRepository repository.UserRepository,
 	validate *validator.Validate,
 	roleService service.RoleService,
+	userValidationService service.UserValidationService,
 ) service.UserService {
 	return &UserServiceImpl{
-		UserRepository: userRepository,
-		Validate:       validate,
-		RoleService:    roleService,
+		UserRepository:        userRepository,
+		Validate:              validate,
+		RoleService:           roleService,
+		UserValidationService: userValidationService,
 	}
 }
 
 func (userService *UserServiceImpl) Create(request *request.UserCreateRequest) response.UserResponse {
+
 	err := userService.Validate.Struct(request)
 	helper.PanicIfError(err)
+	userService.UserValidationService.ValidateCreateUsername(request.Username)
 
 	user := &domain.User{}
 	user.Name = request.Name

@@ -34,11 +34,17 @@ func getUserController(db *gorm.DB, validate *validator.Validate) controller.Rol
 }
 
 func getUserService(db *gorm.DB, validate *validator.Validate) service.UserService {
+	userRepository := getUserRepository(db)
 	return serviceimpl.NewUserService(
-		getUserRepository(db),
+		userRepository,
 		validate,
 		getRoleService(db, validate),
+		getUserValidationService(userRepository),
 	)
+}
+
+func getUserValidationService(userRepository repository.UserRepository) service.UserValidationService {
+	return serviceimpl.NewUserValidationService(userRepository)
 }
 
 func getUserRepository(db *gorm.DB) repository.UserRepository {

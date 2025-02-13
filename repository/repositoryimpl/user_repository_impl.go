@@ -77,6 +77,18 @@ func (userRepository *UserRepositoryImpl) FindTotalItem() int64 {
 	return totalItem
 }
 
+func (userRepository *UserRepositoryImpl) FindByUsername(username string) (*domain.User, error) {
+	user := &domain.User{}
+	result := userRepository.DB.
+		Preload(domain.ROLE).
+		First(&user, "username = ?", username)
+
+	if result.Error == nil {
+		return user, nil
+	}
+	return nil, errors.New(constant.DATA_NOT_FOUND)
+}
+
 func (userRepository *UserRepositoryImpl) searchLike() string {
 	return "LOWER(name) LIKE ? OR LOWER(username) LIKE ?"
 }

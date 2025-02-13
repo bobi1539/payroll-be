@@ -12,4 +12,5 @@ type UserRepository interface {
 	FindAll(search *dto.Search) []domain.User
 	FindAllPagination(search *dto.Search, pagination *dto.Pagination) []domain.User
 	FindTotalItem() int64
+	FindByUsername(username string) (*domain.User, error)
 }
