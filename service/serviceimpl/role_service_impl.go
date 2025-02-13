@@ -81,5 +81,5 @@ func (roleService *RoleServiceImpl) Delete(id int64) response.RoleResponse {
 
 func (roleService *RoleServiceImpl) validateRequest(roleRequest *request.RoleRequest) {
 	err := roleService.Validate.Struct(roleRequest)
-	helper.PanicIfError(err)
+	exception.PanicErrorBusiness(fiber.StatusBadRequest, err)
 }

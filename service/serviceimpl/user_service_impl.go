@@ -36,9 +36,8 @@ func NewUserService(
 }
 
 func (userService *UserServiceImpl) Create(request *request.UserCreateRequest) response.UserResponse {
-
 	err := userService.Validate.Struct(request)
-	helper.PanicIfError(err)
+	exception.PanicErrorBusiness(fiber.StatusBadRequest, err)
 	userService.UserValidationService.ValidateCreateUsername(request.Username)
 
 	user := &domain.User{}
@@ -54,7 +53,7 @@ func (userService *UserServiceImpl) Create(request *request.UserCreateRequest) r
 
 func (userService *UserServiceImpl) Update(id int64, request *request.UserUpdateRequest) response.UserResponse {
 	err := userService.Validate.Struct(request)
-	helper.PanicIfError(err)
+	exception.PanicErrorBusiness(fiber.StatusBadRequest, err)
 
 	user := userService.FindByIdDomain(id)
 	user.Name = request.Name
