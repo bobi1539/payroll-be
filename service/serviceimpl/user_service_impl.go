@@ -45,6 +45,8 @@ func (userService *UserServiceImpl) Create(request *request.UserCreateRequest) r
 	user.Name = request.Name
 	user.Username = request.Username
 	user.Role = userService.findRoleById(request.RoleId)
+	helper.SetCreated(&user.BaseDomain)
+	helper.SetUpdated(&user.BaseDomain)
 
 	user = userService.UserRepository.Create(user)
 	return response.ToUserResponse(user)
@@ -58,6 +60,7 @@ func (userService *UserServiceImpl) Update(id int64, request *request.UserUpdate
 	user.Name = request.Name
 	user.Username = request.Username
 	user.Role = userService.findRoleById(request.RoleId)
+	helper.SetUpdated(&user.BaseDomain)
 
 	user = userService.UserRepository.Update(user)
 	return response.ToUserResponse(user)
