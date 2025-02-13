@@ -6,5 +6,8 @@ import (
 )
 
 func SetSwaggerEndpoint(fiberApp *fiber.App) {
-	fiberApp.Get("/swagger-ui/*", swagger.HandlerDefault)
+	fiberApp.Get("/swagger-ui/*", swagger.New(swagger.Config{
+		URL:          "/swagger-ui/doc.json",
+		DocExpansion: "none",
+	}))
 }
