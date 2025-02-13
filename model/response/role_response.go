@@ -1,6 +1,8 @@
 package response
 
-import "payroll/model/domain"
+import (
+	"payroll/model/domain"
+)
 
 type RoleResponse struct {
 	Id   int64  `json:"id"`
@@ -17,9 +19,10 @@ func ToRoleResponse(role *domain.Role) RoleResponse {
 }
 
 func ToRoleResponses(roles []domain.Role) []RoleResponse {
-	if roles == nil {
+	if len(roles) == 0 {
 		return make([]RoleResponse, 0)
 	}
+
 	var responses []RoleResponse
 	for _, role := range roles {
 		responses = append(responses, ToRoleResponse(&role))

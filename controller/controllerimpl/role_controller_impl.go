@@ -44,7 +44,7 @@ func (roleController *RoleControllerImpl) Create(ctx *fiber.Ctx) error {
 // @Success	200	{object}	response.WebResponse{data=response.RoleResponse}
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
-// @Router	/roles/{id}		[put]
+// @Router	/roles/id/{id}		[put]
 func (roleController *RoleControllerImpl) Update(ctx *fiber.Ctx) error {
 	id := helper.GetParamId(ctx, constant.ROLE_ID)
 	request := helper.BodyParser[request.RoleRequest](ctx)
@@ -60,7 +60,7 @@ func (roleController *RoleControllerImpl) Update(ctx *fiber.Ctx) error {
 // @Success	200	{object}	response.WebResponse{data=response.RoleResponse}
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
-// @Router	/roles/{id} 	[get]
+// @Router	/roles/id/{id} 	[get]
 func (roleController *RoleControllerImpl) FindById(ctx *fiber.Ctx) error {
 	id := helper.GetParamId(ctx, constant.ROLE_ID)
 
@@ -75,10 +75,31 @@ func (roleController *RoleControllerImpl) FindById(ctx *fiber.Ctx) error {
 // @Success	200	{object}	response.WebResponse{data=[]response.RoleResponse}
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
-// @Router	/roles			[get]
+// @Router	/roles/all		[get]
 func (roleController *RoleControllerImpl) FindAll(ctx *fiber.Ctx) error {
-	search := dto.Search{Value: ctx.Query(constant.SEARCH)}
+	search := dto.BuildSearch(ctx.Query(constant.SEARCH))
 
 	response := roleController.RoleService.FindAll(&search)
+	return ctx.JSON(helper.BuildSuccessResponse(response))
+}
+
+// @Tags	Role
+// @Accept	json
+// @Produce	json
+// @Param   search  		query	string	false	"Search"
+// @Param   pageNumber  	query	string	false	"Page Number"	default(1)
+// @Param   pageSize  		query	string	false	"Page Size"		default(10)
+// @Success	200	{object}	response.WebResponse{data=[]response.PaginationResponse}
+// @Failure	400	{object}	response.WebResponse
+// @Failure	500	{object}	response.WebResponse
+// @Router	/roles			[get]
+func (roleController *RoleControllerImpl) FindAllPagination(ctx *fiber.Ctx) error {
+	search := dto.BuildSearch(ctx.Query(constant.SEARCH))
+
+	pageNumber := ctx.Query(constant.PAGE_NUMBER)
+	pageSize := ctx.Query(constant.PAGE_SIZE)
+	pagination := dto.BuildPagination(pageNumber, pageSize)
+
+	response := roleController.RoleService.FindAllPagination(&search, &pagination)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }

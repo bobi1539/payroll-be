@@ -15,7 +15,8 @@ import (
 )
 
 const ROLES = constant.PREFIX_API + "/roles"
-const ROLES_BY_ID = ROLES + "/:" + constant.ROLE_ID
+const ROLES_ALL = ROLES + "/all"
+const ROLES_BY_ID = ROLES + "/id/:" + constant.ROLE_ID
 
 func SetRoleEndpoint(fiberApp *fiber.App, db *gorm.DB, validate *validator.Validate) {
 	roleController := getRoleController(db, validate)
@@ -23,7 +24,8 @@ func SetRoleEndpoint(fiberApp *fiber.App, db *gorm.DB, validate *validator.Valid
 	fiberApp.Post(ROLES, roleController.Create)
 	fiberApp.Put(ROLES_BY_ID, roleController.Update)
 	fiberApp.Get(ROLES_BY_ID, roleController.FindById)
-	fiberApp.Get(ROLES, roleController.FindAll)
+	fiberApp.Get(ROLES_ALL, roleController.FindAll)
+	fiberApp.Get(ROLES, roleController.FindAllPagination)
 }
 
 func getRoleController(db *gorm.DB, validate *validator.Validate) controller.RoleController {

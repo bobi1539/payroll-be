@@ -7,4 +7,5 @@ type CrudController interface {
 	Update(ctx *fiber.Ctx) error
 	FindById(ctx *fiber.Ctx) error
 	FindAll(ctx *fiber.Ctx) error
+	FindAllPagination(ctx *fiber.Ctx) error
 }
