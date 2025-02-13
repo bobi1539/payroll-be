@@ -16,7 +16,7 @@ import (
 
 const ROLES = constant.PREFIX_API + "/roles"
 const ROLES_ALL = ROLES + "/all"
-const ROLES_BY_ID = ROLES + "/id/:" + constant.ROLE_ID
+const ROLES_BY_ID = ROLES + "/id/:" + constant.ID
 
 func SetRoleEndpoint(fiberApp *fiber.App, db *gorm.DB, validate *validator.Validate) {
 	roleController := getRoleController(db, validate)

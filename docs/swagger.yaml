@@ -7,6 +7,35 @@ definitions:
     required:
     - name
     type: object
+  request.UserCreateRequest:
+    properties:
+      name:
+        type: string
+      password:
+        type: string
+      roleId:
+        type: integer
+      username:
+        type: string
+    required:
+    - name
+    - password
+    - roleId
+    - username
+    type: object
+  request.UserUpdateRequest:
+    properties:
+      name:
+        type: string
+      roleId:
+        type: integer
+      username:
+        type: string
+    required:
+    - name
+    - roleId
+    - username
+    type: object
   response.PaginationResponse:
     properties:
       data: {}
@@ -38,6 +67,31 @@ definitions:
       updatedBy:
         type: integer
       updatedByName:
+        type: string
+    type: object
+  response.UserResponse:
+    properties:
+      createdAt:
+        type: string
+      createdBy:
+        type: integer
+      createdByName:
+        type: string
+      id:
+        type: integer
+      isDeleted:
+        type: boolean
+      name:
+        type: string
+      role:
+        $ref: '#/definitions/response.RoleResponse'
+      updatedAt:
+        type: string
+      updatedBy:
+        type: integer
+      updatedByName:
+        type: string
+      username:
         type: string
     type: object
   response.WebResponse:
@@ -262,4 +316,212 @@ paths:
             $ref: '#/definitions/response.WebResponse'
       tags:
       - Role
+  /users:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Search
+        in: query
+        name: search
+        type: string
+      - default: "1"
+        description: Page Number
+        in: query
+        name: pageNumber
+        type: string
+      - default: "10"
+        description: Page Size
+        in: query
+        name: pageSize
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/response.PaginationResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      tags:
+      - User
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.UserResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      tags:
+      - User
+  /users/all:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/response.UserResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      tags:
+      - User
+  /users/id/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.UserResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      tags:
+      - User
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.UserResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      tags:
+      - User
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.UserResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      tags:
+      - User
 swagger: "2.0"

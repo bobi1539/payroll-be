@@ -1,0 +1,93 @@
+package serviceimpl
+
+import (
+	"payroll/exception"
+	"payroll/helper"
+	"payroll/model/domain"
+	"payroll/model/dto"
+	"payroll/model/request"
+	"payroll/model/response"
+	"payroll/repository"
+	"payroll/service"
+
+	"github.com/go-playground/validator/v10"
+	"github.com/gofiber/fiber/v2"
+)
+
+type UserServiceImpl struct {
+	UserRepository repository.UserRepository
+	Validate       *validator.Validate
+	RoleService    service.RoleService
+}
+
+func NewUserService(
+	userRepository repository.UserRepository,
+	validate *validator.Validate,
+	roleService service.RoleService,
+) service.UserService {
+	return &UserServiceImpl{
+		UserRepository: userRepository,
+		Validate:       validate,
+		RoleService:    roleService,
+	}
+}
+
+func (userService *UserServiceImpl) Create(request *request.UserCreateRequest) response.UserResponse {
+	err := userService.Validate.Struct(request)
+	helper.PanicIfError(err)
+
+	user := &domain.User{}
+	user.Name = request.Name
+	user.Username = request.Username
+	user.Role = userService.findRoleById(request.RoleId)
+
+	user = userService.UserRepository.Create(user)
+	return response.ToUserResponse(user)
+}
+
+func (userService *UserServiceImpl) Update(id int64, request *request.UserUpdateRequest) response.UserResponse {
+	err := userService.Validate.Struct(request)
+	helper.PanicIfError(err)
+
+	user := userService.FindByIdDomain(id)
+	user.Name = request.Name
+	user.Username = request.Username
+	user.Role = userService.findRoleById(request.RoleId)
+
+	user = userService.UserRepository.Update(user)
+	return response.ToUserResponse(user)
+}
+
+func (userService *UserServiceImpl) FindById(id int64) response.UserResponse {
+	user := userService.FindByIdDomain(id)
+	return response.ToUserResponse(user)
+}
+
+func (userService *UserServiceImpl) FindByIdDomain(id int64) *domain.User {
+	user, err := userService.UserRepository.FindById(id)
+	exception.PanicErrorBusiness(fiber.StatusBadRequest, err)
+	return user
+}
+
+func (userService *UserServiceImpl) FindAll(search *dto.Search) []response.UserResponse {
+	users := userService.UserRepository.FindAll(search)
+	return response.ToUserResponses(users)
+}
+
+func (userService *UserServiceImpl) FindAllPagination(search *dto.Search, pagination *dto.Pagination) response.PaginationResponse {
+	users := userService.UserRepository.FindAllPagination(search, pagination)
+	totalItem := userService.UserRepository.FindTotalItem()
+
+	responses := response.ToUserResponses(users)
+	return response.ToPaginationResponse(responses, pagination.PageNumber, pagination.PageSize, totalItem)
+}
+
+func (userService *UserServiceImpl) Delete(id int64) response.UserResponse {
+	user := userService.FindByIdDomain(id)
+	user.BaseDomain.IsDeleted = true
+	return response.ToUserResponse(user)
+}
+
+func (userService *UserServiceImpl) findRoleById(id int64) *domain.Role {
+	return userService.RoleService.FindByIdDomain(id)
+}

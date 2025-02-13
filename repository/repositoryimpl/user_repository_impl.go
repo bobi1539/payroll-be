@@ -32,6 +32,7 @@ func (userRepository *UserRepositoryImpl) Update(user *domain.User) *domain.User
 func (userRepository *UserRepositoryImpl) FindById(id int64) (*domain.User, error) {
 	user := &domain.User{}
 	result := userRepository.DB.
+		Preload(domain.ROLE).
 		Where(constant.IS_DELETED_FALSE).
 		First(&user, "id = ?", id)
 
@@ -45,6 +46,7 @@ func (userRepository *UserRepositoryImpl) FindAll(search *dto.Search) []domain.U
 	var users []domain.User
 	valueLike := helper.StringQueryLike(search.Value)
 	userRepository.DB.
+		Preload(domain.ROLE).
 		Where(userRepository.searchLike(), valueLike, valueLike).
 		Where(constant.IS_DELETED_FALSE).
 		Order("id ASC").
@@ -56,6 +58,7 @@ func (userRepository *UserRepositoryImpl) FindAllPagination(search *dto.Search, 
 	var users []domain.User
 	valueLike := helper.StringQueryLike(search.Value)
 	userRepository.DB.
+		Preload(domain.ROLE).
 		Where(userRepository.searchLike(), valueLike, valueLike).
 		Where(constant.IS_DELETED_FALSE).
 		Order("id ASC").
