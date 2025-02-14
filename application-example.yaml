@@ -8,3 +8,7 @@ database:
   password: "payphone@147"
   name: "payroll"
   showSql: true
+
+jwt:
+  key: ixNEyuHNvDP6Wav9xdb1v8c6QTA9uwPGgjSrpft6XRUxJGHwmS
+  expired: 8760 #in hour

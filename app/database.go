@@ -19,7 +19,7 @@ func NewDB() *gorm.DB {
 }
 
 func getDataSourceName() string {
-	config := NewViper()
+	config := helper.NewViper()
 	return fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Jakarta",
 		config.GetString(constant.DB_HOST),

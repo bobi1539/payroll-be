@@ -1,19 +1,23 @@
-package app
+package helper
 
 import (
 	"payroll/constant"
-	"payroll/helper"
 
 	"github.com/spf13/viper"
 )
 
+var config *viper.Viper
+
 func NewViper() *viper.Viper {
-	config := viper.New()
+	if config == nil {
+		config = viper.New()
+	}
+
 	config.SetConfigFile(constant.CONFIG_FILE)
 	config.AddConfigPath(".")
 
 	err := config.ReadInConfig()
-	helper.PanicIfError(err)
+	PanicIfError(err)
 
 	return config
 }

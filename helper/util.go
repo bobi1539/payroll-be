@@ -23,9 +23,23 @@ func StringQueryLike(value string) string {
 }
 
 func StringToInt(value string) int {
+	if len(value) == 0 {
+		return 0
+	}
+
 	intValue, err := strconv.Atoi(value)
 	PanicIfError(err)
 	return intValue
+}
+
+func StringToInt64(value string) int64 {
+	if len(value) == 0 {
+		return 0
+	}
+
+	intValue, err := strconv.Atoi(value)
+	PanicIfError(err)
+	return int64(intValue)
 }
 
 func ContainsDigitUpperLower(s string) bool {
