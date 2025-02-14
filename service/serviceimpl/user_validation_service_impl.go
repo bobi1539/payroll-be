@@ -4,6 +4,7 @@ import (
 	"errors"
 	"payroll/constant"
 	"payroll/exception"
+	"payroll/helper"
 	"payroll/model/domain"
 	"payroll/repository"
 	"payroll/service"
@@ -32,5 +33,14 @@ func (userValidationService *UserValidationServiceImpl) ValidateUpdateUsername(u
 	user, _ := userValidationService.UserRepository.FindByUsername(username)
 	if user != nil && user.ID != userExisting.ID {
 		exception.PanicErrorBusiness(fiber.StatusBadRequest, errors.New(constant.USERNAME_ALREADY_REGISTERED))
+	}
+}
+
+func (userValidationService *UserValidationServiceImpl) ValidatePassword(password string) {
+	if len(password) < constant.MIN_PASSWORD_LEN {
+		exception.PanicErrorBusiness(fiber.StatusBadRequest, errors.New(constant.PASSWORD_MIN_10))
+	}
+	if !helper.ContainsDigitUpperLower(password) {
+		exception.PanicErrorBusiness(fiber.StatusBadRequest, errors.New(constant.PASSWORD_DIGIT_UPPER_LOWER))
 	}
 }

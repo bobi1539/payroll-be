@@ -14,3 +14,4 @@ const ERROR = "Error : "
 const SEARCH = "search"
 const PAGE_NUMBER = "pageNumber"
 const PAGE_SIZE = "pageSize"
+const MIN_PASSWORD_LEN = 10

@@ -36,9 +36,7 @@ func NewUserService(
 }
 
 func (userService *UserServiceImpl) Create(request *request.UserCreateRequest) response.UserResponse {
-	err := userService.Validate.Struct(request)
-	exception.PanicErrorBusiness(fiber.StatusBadRequest, err)
-	userService.UserValidationService.ValidateCreateUsername(request.Username)
+	userService.validateCreateUser(request)
 
 	user := &domain.User{}
 	user.Name = request.Name
@@ -96,4 +94,11 @@ func (userService *UserServiceImpl) Delete(id int64) response.UserResponse {
 
 func (userService *UserServiceImpl) findRoleById(id int64) *domain.Role {
 	return userService.RoleService.FindByIdDomain(id)
+}
+
+func (userService *UserServiceImpl) validateCreateUser(request *request.UserCreateRequest) {
+	err := userService.Validate.Struct(request)
+	exception.PanicErrorBusiness(fiber.StatusBadRequest, err)
+	userService.UserValidationService.ValidateCreateUsername(request.Username)
+	userService.UserValidationService.ValidatePassword(request.Password)
 }
