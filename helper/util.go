@@ -6,6 +6,7 @@ import (
 	"unicode"
 
 	"github.com/sirupsen/logrus"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var log *logrus.Logger
@@ -45,4 +46,10 @@ func ContainsDigitUpperLower(s string) bool {
 	}
 
 	return false
+}
+
+func HashPassword(password string) string {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	PanicIfError(err)
+	return string(hashedPassword)
 }

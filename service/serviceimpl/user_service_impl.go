@@ -41,6 +41,7 @@ func (userService *UserServiceImpl) Create(request *request.UserCreateRequest) r
 	user := &domain.User{}
 	user.Name = request.Name
 	user.Username = request.Username
+	user.Password = helper.HashPassword(request.Password)
 	user.Role = userService.findRoleById(request.RoleId)
 	helper.SetCreated(&user.BaseDomain)
 	helper.SetUpdated(&user.BaseDomain)
