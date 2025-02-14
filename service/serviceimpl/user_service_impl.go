@@ -55,6 +55,7 @@ func (userService *UserServiceImpl) Update(id int64, request *request.UserUpdate
 	exception.PanicErrorBusiness(fiber.StatusBadRequest, err)
 
 	user := userService.FindByIdDomain(id)
+	userService.UserValidationService.ValidateUpdateUsername(request.Username, user)
 	user.Name = request.Name
 	user.Username = request.Username
 	user.Role = userService.findRoleById(request.RoleId)
