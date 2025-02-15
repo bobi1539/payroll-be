@@ -21,7 +21,7 @@ type UserServiceImpl struct {
 	UserValidationService service.UserValidationService
 }
 
-func NewUserService(
+func NewUserServiceImpl(
 	userRepository repository.UserRepository,
 	validate *validator.Validate,
 	roleService service.RoleService,

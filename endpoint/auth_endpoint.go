@@ -1,0 +1,38 @@
+package endpoint
+
+import (
+	"payroll/constant"
+	"payroll/controller"
+	"payroll/controller/controllerimpl"
+	"payroll/service"
+	"payroll/service/serviceimpl"
+
+	"github.com/go-playground/validator/v10"
+	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
+)
+
+const AUTHS = constant.PREFIX_API + "/auths"
+const AUTHS_LOGIN = AUTHS + "/login"
+
+func SetAuthEndpoint(fiberApp *fiber.App, db *gorm.DB, validate *validator.Validate) {
+	authController := getAuthController(db, validate)
+
+	fiberApp.Post(AUTHS_LOGIN, authController.Login)
+}
+
+func getAuthController(db *gorm.DB, validate *validator.Validate) controller.AuthController {
+	return controllerimpl.NewAuthControllerImpl(getAuthService(db, validate))
+}
+
+func getAuthService(db *gorm.DB, validate *validator.Validate) service.AuthService {
+	return serviceimpl.NewAuthServiceImpl(
+		getUserRepository(db),
+		getJwtService(),
+		validate,
+	)
+}
+
+func getJwtService() service.JwtService {
+	return serviceimpl.NewJwtServiceImpl()
+}

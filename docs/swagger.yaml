@@ -1,5 +1,15 @@
 basePath: /api
 definitions:
+  request.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
   request.RoleRequest:
     properties:
       name:
@@ -35,6 +45,13 @@ definitions:
     - name
     - roleId
     - username
+    type: object
+  response.LoginResponse:
+    properties:
+      jwtToken:
+        type: string
+      refreshToken:
+        type: string
     type: object
   response.PaginationResponse:
     properties:
@@ -104,6 +121,39 @@ info:
   title: PAYROLL API
   version: "1.0"
 paths:
+  /auths/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.LoginResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      tags:
+      - Auth
   /roles:
     get:
       consumes:

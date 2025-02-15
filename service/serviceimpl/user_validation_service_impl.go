@@ -16,7 +16,7 @@ type UserValidationServiceImpl struct {
 	UserRepository repository.UserRepository
 }
 
-func NewUserValidationService(userRepository repository.UserRepository) service.UserValidationService {
+func NewUserValidationServiceImpl(userRepository repository.UserRepository) service.UserValidationService {
 	return &UserValidationServiceImpl{
 		UserRepository: userRepository,
 	}

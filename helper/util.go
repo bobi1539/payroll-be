@@ -1,6 +1,8 @@
 package helper
 
 import (
+	"crypto/rand"
+	"math/big"
 	"strconv"
 	"strings"
 	"unicode"
@@ -10,6 +12,8 @@ import (
 )
 
 var log *logrus.Logger
+
+const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 func GetLogger() *logrus.Logger {
 	if log == nil {
@@ -66,4 +70,14 @@ func HashPassword(password string) string {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	PanicIfError(err)
 	return string(hashedPassword)
+}
+
+func GenerateRandomString(length int) string {
+	bytes := make([]byte, length)
+	for i := range bytes {
+		randomIndex, err := rand.Int(rand.Reader, big.NewInt(int64(len(charset))))
+		PanicIfError(err)
+		bytes[i] = charset[randomIndex.Int64()]
+	}
+	return string(bytes)
 }

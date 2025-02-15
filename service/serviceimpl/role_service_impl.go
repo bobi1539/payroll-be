@@ -19,7 +19,7 @@ type RoleServiceImpl struct {
 	Validate       *validator.Validate
 }
 
-func NewRoleService(roleRepository repository.RoleRepository, validate *validator.Validate) service.RoleService {
+func NewRoleServiceImpl(roleRepository repository.RoleRepository, validate *validator.Validate) service.RoleService {
 	return &RoleServiceImpl{
 		RoleRepository: roleRepository,
 		Validate:       validate,

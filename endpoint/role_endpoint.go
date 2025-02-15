@@ -34,9 +34,9 @@ func getRoleController(db *gorm.DB, validate *validator.Validate) controller.Rol
 }
 
 func getRoleService(db *gorm.DB, validate *validator.Validate) service.RoleService {
-	return serviceimpl.NewRoleService(getRoleRepository(db), validate)
+	return serviceimpl.NewRoleServiceImpl(getRoleRepository(db), validate)
 }
 
 func getRoleRepository(db *gorm.DB) repository.RoleRepository {
-	return repositoryimpl.NewRoleRepository(db)
+	return repositoryimpl.NewRoleRepositoryImpl(db)
 }

@@ -42,4 +42,5 @@ func setEndpoint(fiberApp *fiber.App, db *gorm.DB, validate *validator.Validate)
 	endpoint.SetSwaggerEndpoint(fiberApp)
 	endpoint.SetRoleEndpoint(fiberApp, db, validate)
 	endpoint.SetUserEndpoint(fiberApp, db, validate)
+	endpoint.SetAuthEndpoint(fiberApp, db, validate)
 }
