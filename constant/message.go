@@ -8,4 +8,5 @@ const PASSWORD_DIGIT_UPPER_LOWER = "password must contain number, upper and lowe
 const CANNOT_DELETE_THIS_DATA = "cannot delete this data | tidak bisa menghapus data ini"
 const UNAUTHORIZED = "unauthorized | unauthorized"
 const WRONG_USERNAME_PASSWORD = "wrong username or password | username atau password salah"
+const TOKEN_NOT_VALID = "token not valid | token tidak sah"
 const INTERNAL_SERVER_ERROR = "internal server error | internal server error"

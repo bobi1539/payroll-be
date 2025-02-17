@@ -1,8 +1,11 @@
 package repositoryimpl
 
 import (
+	"errors"
+	"payroll/constant"
 	"payroll/model/domain"
 	"payroll/repository"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -21,5 +24,16 @@ func (refreshTokenRepository *RefreshTokenRepositoryImpl) Create(refreshToken *d
 }
 
 func (refreshTokenRepository *RefreshTokenRepositoryImpl) FindByTokenAndValidityIsValid(token string) (*domain.RefreshToken, error) {
-	return &domain.RefreshToken{}, nil
+	refreshToken := &domain.RefreshToken{}
+
+	result := refreshTokenRepository.DB.
+		Preload(domain.USER).
+		Where("token = ?", token).
+		Where("validity > ?", time.Now()).
+		First(refreshToken)
+
+	if result.Error != nil {
+		return refreshToken, errors.New(constant.DATA_NOT_FOUND)
+	}
+	return refreshToken, nil
 }

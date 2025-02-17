@@ -55,6 +55,19 @@ func (authService *AuthServiceImpl) Login(request *request.LoginRequest) respons
 	return buildLoginResponse(jwtToken, refreshToken)
 }
 
+func (authService *AuthServiceImpl) LoginRefreshToken(request *request.LoginRefreshTokenRequest) response.LoginResponse {
+	err := authService.Validate.Struct(request)
+	exception.PanicErrorBusiness(fiber.StatusBadRequest, err)
+
+	refreshToken, err := authService.RefreshTokenRepository.FindByTokenAndValidityIsValid(request.RefreshToken)
+	if err != nil {
+		exception.PanicErrorBusiness(fiber.StatusUnauthorized, errors.New(constant.TOKEN_NOT_VALID))
+	}
+
+	jwtToken := authService.JwtService.GenerateJwtToken(refreshToken.User)
+	return buildLoginResponse(jwtToken, refreshToken.Token)
+}
+
 func validatePassword(hashPassword string, password string) {
 	err := bcrypt.CompareHashAndPassword([]byte(hashPassword), []byte(password))
 	if err != nil {

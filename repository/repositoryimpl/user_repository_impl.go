@@ -44,10 +44,10 @@ func (userRepository *UserRepositoryImpl) FindById(id int64) (*domain.User, erro
 		Preload(domain.ROLE).
 		First(&user, "id = ?", id)
 
-	if result.Error == nil {
-		return user, nil
+	if result.Error != nil {
+		return user, errors.New(constant.DATA_NOT_FOUND)
 	}
-	return user, errors.New(constant.DATA_NOT_FOUND)
+	return user, nil
 }
 
 func (userRepository *UserRepositoryImpl) FindAll(search *dto.Search) []domain.User {
@@ -88,10 +88,10 @@ func (userRepository *UserRepositoryImpl) FindByUsername(username string) (*doma
 		Preload(domain.ROLE).
 		First(&user, "username = ?", username)
 
-	if result.Error == nil {
-		return user, nil
+	if result.Error != nil {
+		return nil, errors.New(constant.DATA_NOT_FOUND)
 	}
-	return nil, errors.New(constant.DATA_NOT_FOUND)
+	return user, nil
 }
 
 func (userRepository *UserRepositoryImpl) searchLike() string {

@@ -16,11 +16,13 @@ import (
 
 const AUTHS = constant.PREFIX_API + "/auths"
 const AUTHS_LOGIN = AUTHS + "/login"
+const AUTHS_REFRESH_TOKEN = AUTHS + "/refresh-token"
 
 func SetAuthEndpoint(fiberApp *fiber.App, db *gorm.DB, validate *validator.Validate) {
 	authController := getAuthController(db, validate)
 
 	fiberApp.Post(AUTHS_LOGIN, authController.Login)
+	fiberApp.Post(AUTHS_REFRESH_TOKEN, authController.LoginRefreshToken)
 }
 
 func getAuthController(db *gorm.DB, validate *validator.Validate) controller.AuthController {

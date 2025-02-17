@@ -33,3 +33,18 @@ func (authController *AuthControllerImpl) Login(ctx *fiber.Ctx) error {
 	response := authController.AuthService.Login(request)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
+
+// @Tags	Auth
+// @Accept	json
+// @Produce	json
+// @Param	request 		body	request.LoginRefreshTokenRequest	true	"Request body"
+// @Success	200	{object}	response.WebResponse{data=response.LoginResponse}
+// @Failure	400	{object}	response.WebResponse
+// @Failure	500	{object}	response.WebResponse
+// @Router	/auths/refresh-token	[post]
+func (authController *AuthControllerImpl) LoginRefreshToken(ctx *fiber.Ctx) error {
+	request := helper.BodyParser[request.LoginRefreshTokenRequest](ctx)
+
+	response := authController.AuthService.LoginRefreshToken(request)
+	return ctx.JSON(helper.BuildSuccessResponse(response))
+}

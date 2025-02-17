@@ -42,10 +42,10 @@ func (roleRepository *RoleRepositoryImpl) FindById(id int64) (*domain.Role, erro
 	role := &domain.Role{}
 	result := roleRepository.DB.First(role, "id = ?", id)
 
-	if result.Error == nil {
-		return role, nil
+	if result.Error != nil {
+		return role, errors.New(constant.DATA_NOT_FOUND)
 	}
-	return role, errors.New(constant.DATA_NOT_FOUND)
+	return role, nil
 }
 
 func (roleRepository *RoleRepositoryImpl) FindAll(search *dto.Search) []domain.Role {

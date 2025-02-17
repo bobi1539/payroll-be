@@ -7,4 +7,5 @@ import (
 
 type AuthService interface {
 	Login(request *request.LoginRequest) response.LoginResponse
+	LoginRefreshToken(request *request.LoginRefreshTokenRequest) response.LoginResponse
 }

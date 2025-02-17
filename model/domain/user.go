@@ -1,5 +1,7 @@
 package domain
 
+const USER = "User"
+
 type User struct {
 	ID         int64      `gorm:"primary_key;column:id"`
 	Name       string     `gorm:"column:name"`
