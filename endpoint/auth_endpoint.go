@@ -4,6 +4,8 @@ import (
 	"payroll/constant"
 	"payroll/controller"
 	"payroll/controller/controllerimpl"
+	"payroll/repository"
+	"payroll/repository/repositoryimpl"
 	"payroll/service"
 	"payroll/service/serviceimpl"
 
@@ -28,6 +30,7 @@ func getAuthController(db *gorm.DB, validate *validator.Validate) controller.Aut
 func getAuthService(db *gorm.DB, validate *validator.Validate) service.AuthService {
 	return serviceimpl.NewAuthServiceImpl(
 		getUserRepository(db),
+		getRefreshTokenRepository(db),
 		getJwtService(),
 		validate,
 	)
@@ -35,4 +38,8 @@ func getAuthService(db *gorm.DB, validate *validator.Validate) service.AuthServi
 
 func getJwtService() service.JwtService {
 	return serviceimpl.NewJwtServiceImpl()
+}
+
+func getRefreshTokenRepository(db *gorm.DB) repository.RefreshTokenRepository {
+	return repositoryimpl.NewRefreshTokenRepositoryImpl(db)
 }
