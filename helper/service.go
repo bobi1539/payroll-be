@@ -1,19 +1,18 @@
 package helper
 
 import (
-	"payroll/constant"
 	"payroll/model/domain"
 	"time"
 )
 
-func SetCreated(base *domain.BaseDomain) {
+func SetCreated(base *domain.BaseDomain, user *domain.User) {
 	base.CreatedAt = time.Now()
-	base.CreatedBy = 1
-	base.CreatedByName = constant.SYSTEM
+	base.CreatedBy = user.ID
+	base.CreatedByName = user.Name
 }
 
-func SetUpdated(base *domain.BaseDomain) {
+func SetUpdated(base *domain.BaseDomain, user *domain.User) {
 	base.UpdatedAt = time.Now()
-	base.UpdatedBy = 1
-	base.UpdatedByName = constant.SYSTEM
+	base.UpdatedBy = user.ID
+	base.UpdatedByName = user.Name
 }

@@ -8,8 +8,8 @@ import (
 )
 
 type UserService interface {
-	Create(request *request.UserCreateRequest) response.UserResponse
-	Update(id int64, request *request.UserUpdateRequest) response.UserResponse
+	Create(request *request.UserCreateRequest, header dto.Header) response.UserResponse
+	Update(id int64, request *request.UserUpdateRequest, header dto.Header) response.UserResponse
 	FindById(id int64) response.UserResponse
 	FindByIdDomain(id int64) *domain.User
 	FindAll(search *dto.Search) []response.UserResponse

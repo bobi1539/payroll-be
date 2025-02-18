@@ -16,33 +16,41 @@ import (
 
 type RoleServiceImpl struct {
 	RoleRepository repository.RoleRepository
+	UserRepository repository.UserRepository
 	Validate       *validator.Validate
 }
 
-func NewRoleServiceImpl(roleRepository repository.RoleRepository, validate *validator.Validate) service.RoleService {
+func NewRoleServiceImpl(
+	roleRepository repository.RoleRepository,
+	userRepository repository.UserRepository,
+	validate *validator.Validate,
+) service.RoleService {
 	return &RoleServiceImpl{
 		RoleRepository: roleRepository,
+		UserRepository: userRepository,
 		Validate:       validate,
 	}
 }
 
 func (roleService *RoleServiceImpl) Create(request *request.RoleRequest, header dto.Header) response.RoleResponse {
+	user := roleService.findUserById(header.UserId)
 	roleService.validateRequest(request)
 
 	role := &domain.Role{}
 	role.Name = request.Name
-	helper.SetCreated(&role.BaseDomain)
-	helper.SetUpdated(&role.BaseDomain)
+	helper.SetCreated(&role.BaseDomain, user)
+	helper.SetUpdated(&role.BaseDomain, user)
 
 	return response.ToRoleResponse(roleService.RoleRepository.Create(role))
 }
 
 func (roleService *RoleServiceImpl) Update(id int64, request *request.RoleRequest, header dto.Header) response.RoleResponse {
+	user := roleService.findUserById(header.UserId)
 	roleService.validateRequest(request)
 
 	role := roleService.FindByIdDomain(id)
 	role.Name = request.Name
-	helper.SetUpdated(&role.BaseDomain)
+	helper.SetUpdated(&role.BaseDomain, user)
 
 	return response.ToRoleResponse(roleService.RoleRepository.Update(role))
 }
@@ -80,4 +88,10 @@ func (roleService *RoleServiceImpl) Delete(id int64) response.RoleResponse {
 func (roleService *RoleServiceImpl) validateRequest(roleRequest *request.RoleRequest) {
 	err := roleService.Validate.Struct(roleRequest)
 	exception.PanicErrorBusiness(fiber.StatusBadRequest, err)
+}
+
+func (roleService *RoleServiceImpl) findUserById(id int64) *domain.User {
+	user, err := roleService.UserRepository.FindById(id)
+	exception.PanicErrorBusiness(fiber.StatusBadRequest, err)
+	return user
 }

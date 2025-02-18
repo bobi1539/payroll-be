@@ -32,8 +32,9 @@ func NewUserController(userService service.UserService) controller.UserControlle
 // @Security 				BearerAuth
 func (userController *UserControllerImpl) Create(ctx *fiber.Ctx) error {
 	request := helper.BodyParser[request.UserCreateRequest](ctx)
+	header := dto.GetHeader(ctx)
 
-	response := userController.UserService.Create(request)
+	response := userController.UserService.Create(request, header)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 
@@ -50,8 +51,9 @@ func (userController *UserControllerImpl) Create(ctx *fiber.Ctx) error {
 func (userController *UserControllerImpl) Update(ctx *fiber.Ctx) error {
 	id := helper.GetParamId(ctx, constant.ID)
 	request := helper.BodyParser[request.UserUpdateRequest](ctx)
+	header := dto.GetHeader(ctx)
 
-	response := userController.UserService.Update(id, request)
+	response := userController.UserService.Update(id, request, header)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 

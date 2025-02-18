@@ -35,7 +35,8 @@ func NewUserServiceImpl(
 	}
 }
 
-func (userService *UserServiceImpl) Create(request *request.UserCreateRequest) response.UserResponse {
+func (userService *UserServiceImpl) Create(request *request.UserCreateRequest, header dto.Header) response.UserResponse {
+	userFromHeader := userService.FindByIdDomain(header.UserId)
 	userService.validateCreateUser(request)
 
 	user := &domain.User{}
@@ -43,13 +44,14 @@ func (userService *UserServiceImpl) Create(request *request.UserCreateRequest) r
 	user.Username = request.Username
 	user.Password = helper.HashPassword(request.Password)
 	user.Role = userService.findRoleById(request.RoleId)
-	helper.SetCreated(&user.BaseDomain)
-	helper.SetUpdated(&user.BaseDomain)
+	helper.SetCreated(&user.BaseDomain, userFromHeader)
+	helper.SetUpdated(&user.BaseDomain, userFromHeader)
 
 	return response.ToUserResponse(userService.UserRepository.Create(user))
 }
 
-func (userService *UserServiceImpl) Update(id int64, request *request.UserUpdateRequest) response.UserResponse {
+func (userService *UserServiceImpl) Update(id int64, request *request.UserUpdateRequest, header dto.Header) response.UserResponse {
+	userFromHeader := userService.FindByIdDomain(header.UserId)
 	err := userService.Validate.Struct(request)
 	exception.PanicErrorBusiness(fiber.StatusBadRequest, err)
 
@@ -58,7 +60,7 @@ func (userService *UserServiceImpl) Update(id int64, request *request.UserUpdate
 	user.Name = request.Name
 	user.Username = request.Username
 	user.Role = userService.findRoleById(request.RoleId)
-	helper.SetUpdated(&user.BaseDomain)
+	helper.SetUpdated(&user.BaseDomain, userFromHeader)
 
 	return response.ToUserResponse(userService.UserRepository.Update(user))
 }
