@@ -8,8 +8,8 @@ import (
 )
 
 type RoleService interface {
-	Create(request *request.RoleRequest) response.RoleResponse
-	Update(id int64, request *request.RoleRequest) response.RoleResponse
+	Create(request *request.RoleRequest, header dto.Header) response.RoleResponse
+	Update(id int64, request *request.RoleRequest, header dto.Header) response.RoleResponse
 	FindById(id int64) response.RoleResponse
 	FindByIdDomain(id int64) *domain.Role
 	FindAll(search *dto.Search) []response.RoleResponse

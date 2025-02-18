@@ -19,3 +19,6 @@ const PAGE_NUMBER = "pageNumber"
 const PAGE_SIZE = "pageSize"
 const MIN_PASSWORD_LEN = 10
 const SIGNING_METHOD_INVALID = "signing method invalid"
+const AUTHORIZATION = "Authorization"
+const BEARER = "Bearer "
+const HEADER = "header"

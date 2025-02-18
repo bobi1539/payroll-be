@@ -29,10 +29,12 @@ func NewRoleController(roleService service.RoleService) controller.RoleControlle
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
 // @Router	/roles			[post]
+// @Security 				BearerAuth
 func (roleController *RoleControllerImpl) Create(ctx *fiber.Ctx) error {
 	request := helper.BodyParser[request.RoleRequest](ctx)
+	header := dto.GetHeader(ctx)
 
-	response := roleController.RoleService.Create(request)
+	response := roleController.RoleService.Create(request, header)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 
@@ -44,12 +46,14 @@ func (roleController *RoleControllerImpl) Create(ctx *fiber.Ctx) error {
 // @Success	200	{object}	response.WebResponse{data=response.RoleResponse}
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
-// @Router	/roles/id/{id}		[put]
+// @Router	/roles/id/{id}	[put]
+// @Security 				BearerAuth
 func (roleController *RoleControllerImpl) Update(ctx *fiber.Ctx) error {
 	id := helper.GetParamId(ctx, constant.ID)
 	request := helper.BodyParser[request.RoleRequest](ctx)
+	header := dto.GetHeader(ctx)
 
-	response := roleController.RoleService.Update(id, request)
+	response := roleController.RoleService.Update(id, request, header)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 
@@ -61,6 +65,7 @@ func (roleController *RoleControllerImpl) Update(ctx *fiber.Ctx) error {
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
 // @Router	/roles/id/{id} 	[get]
+// @Security 				BearerAuth
 func (roleController *RoleControllerImpl) FindById(ctx *fiber.Ctx) error {
 	id := helper.GetParamId(ctx, constant.ID)
 
@@ -76,6 +81,7 @@ func (roleController *RoleControllerImpl) FindById(ctx *fiber.Ctx) error {
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
 // @Router	/roles/all		[get]
+// @Security 				BearerAuth
 func (roleController *RoleControllerImpl) FindAll(ctx *fiber.Ctx) error {
 	search := dto.BuildSearch(ctx.Query(constant.SEARCH))
 
@@ -93,6 +99,7 @@ func (roleController *RoleControllerImpl) FindAll(ctx *fiber.Ctx) error {
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
 // @Router	/roles			[get]
+// @Security 				BearerAuth
 func (roleController *RoleControllerImpl) FindAllPagination(ctx *fiber.Ctx) error {
 	search := dto.BuildSearch(ctx.Query(constant.SEARCH))
 
@@ -112,6 +119,7 @@ func (roleController *RoleControllerImpl) FindAllPagination(ctx *fiber.Ctx) erro
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
 // @Router	/roles/id/{id} 	[delete]
+// @Security 				BearerAuth
 func (roleController *RoleControllerImpl) Delete(ctx *fiber.Ctx) error {
 	id := helper.GetParamId(ctx, constant.ID)
 

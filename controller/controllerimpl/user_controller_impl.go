@@ -29,6 +29,7 @@ func NewUserController(userService service.UserService) controller.UserControlle
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
 // @Router	/users			[post]
+// @Security 				BearerAuth
 func (userController *UserControllerImpl) Create(ctx *fiber.Ctx) error {
 	request := helper.BodyParser[request.UserCreateRequest](ctx)
 
@@ -45,6 +46,7 @@ func (userController *UserControllerImpl) Create(ctx *fiber.Ctx) error {
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
 // @Router	/users/id/{id}	[put]
+// @Security 				BearerAuth
 func (userController *UserControllerImpl) Update(ctx *fiber.Ctx) error {
 	id := helper.GetParamId(ctx, constant.ID)
 	request := helper.BodyParser[request.UserUpdateRequest](ctx)
@@ -61,6 +63,7 @@ func (userController *UserControllerImpl) Update(ctx *fiber.Ctx) error {
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
 // @Router	/users/id/{id} 	[get]
+// @Security 				BearerAuth
 func (userController *UserControllerImpl) FindById(ctx *fiber.Ctx) error {
 	id := helper.GetParamId(ctx, constant.ID)
 
@@ -76,6 +79,7 @@ func (userController *UserControllerImpl) FindById(ctx *fiber.Ctx) error {
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
 // @Router	/users/all		[get]
+// @Security 				BearerAuth
 func (userController *UserControllerImpl) FindAll(ctx *fiber.Ctx) error {
 	search := dto.BuildSearch(ctx.Query(constant.SEARCH))
 
@@ -93,6 +97,7 @@ func (userController *UserControllerImpl) FindAll(ctx *fiber.Ctx) error {
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
 // @Router	/users			[get]
+// @Security 				BearerAuth
 func (userController *UserControllerImpl) FindAllPagination(ctx *fiber.Ctx) error {
 	search := dto.BuildSearch(ctx.Query(constant.SEARCH))
 
@@ -112,6 +117,7 @@ func (userController *UserControllerImpl) FindAllPagination(ctx *fiber.Ctx) erro
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
 // @Router	/users/id/{id} 	[delete]
+// @Security 				BearerAuth
 func (userController *UserControllerImpl) Delete(ctx *fiber.Ctx) error {
 	id := helper.GetParamId(ctx, constant.ID)
 

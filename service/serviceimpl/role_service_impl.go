@@ -26,7 +26,7 @@ func NewRoleServiceImpl(roleRepository repository.RoleRepository, validate *vali
 	}
 }
 
-func (roleService *RoleServiceImpl) Create(request *request.RoleRequest) response.RoleResponse {
+func (roleService *RoleServiceImpl) Create(request *request.RoleRequest, header dto.Header) response.RoleResponse {
 	roleService.validateRequest(request)
 
 	role := &domain.Role{}
@@ -37,7 +37,7 @@ func (roleService *RoleServiceImpl) Create(request *request.RoleRequest) respons
 	return response.ToRoleResponse(roleService.RoleRepository.Create(role))
 }
 
-func (roleService *RoleServiceImpl) Update(id int64, request *request.RoleRequest) response.RoleResponse {
+func (roleService *RoleServiceImpl) Update(id int64, request *request.RoleRequest, header dto.Header) response.RoleResponse {
 	roleService.validateRequest(request)
 
 	role := roleService.FindByIdDomain(id)

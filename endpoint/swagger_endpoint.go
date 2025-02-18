@@ -5,9 +5,11 @@ import (
 	"github.com/gofiber/swagger"
 )
 
+const SWAGGER = "/swagger-ui"
+
 func SetSwaggerEndpoint(fiberApp *fiber.App) {
-	fiberApp.Get("/swagger-ui/*", swagger.New(swagger.Config{
-		URL:          "/swagger-ui/doc.json",
+	fiberApp.Get(SWAGGER+"/*", swagger.New(swagger.Config{
+		URL:          SWAGGER + "/doc.json",
 		DocExpansion: "none",
 	}))
 }

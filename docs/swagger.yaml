@@ -235,6 +235,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
       tags:
       - Role
     post:
@@ -267,6 +269,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
       tags:
       - Role
   /roles/all:
@@ -300,6 +304,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
       tags:
       - Role
   /roles/id/{id}:
@@ -332,6 +338,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
       tags:
       - Role
     get:
@@ -363,6 +371,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
       tags:
       - Role
     put:
@@ -400,6 +410,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
       tags:
       - Role
   /users:
@@ -443,6 +455,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
       tags:
       - User
     post:
@@ -475,6 +489,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
       tags:
       - User
   /users/all:
@@ -508,6 +524,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
       tags:
       - User
   /users/id/{id}:
@@ -540,6 +558,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
       tags:
       - User
     get:
@@ -571,6 +591,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
       tags:
       - User
     put:
@@ -608,6 +630,14 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
       tags:
       - User
+securityDefinitions:
+  BearerAuth:
+    description: 'Gunakan format: "Bearer {token}"'
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

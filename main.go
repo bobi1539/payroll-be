@@ -6,6 +6,7 @@ import (
 	"payroll/endpoint"
 	"payroll/exception"
 	"payroll/helper"
+	"payroll/middleware"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -19,6 +20,12 @@ import (
 // @version		1.0
 // @description	This is a payroll api service.
 // @BasePath	/api
+
+// @securityDefinitions.apikey	BearerAuth
+// @in 							header
+// @name 						Authorization
+// @scheme 						bearer
+// @description 				Gunakan format: "Bearer {token}"
 func main() {
 	fiberApp := getFiberApp()
 	db := app.NewDB()
@@ -35,6 +42,7 @@ func getFiberApp() *fiber.App {
 		ErrorHandler: exception.ErrorHandler,
 	})
 	fiberApp.Use(recover.New())
+	fiberApp.Use(middleware.JwtMiddleware)
 	return fiberApp
 }
 
