@@ -16,25 +16,25 @@ import (
 
 type PositionServiceImpl struct {
 	PositionRepository repository.PositionRepository
-	UserRepository     repository.UserRepository
+	UserService        service.UserService
 	Validate           *validator.Validate
 }
 
 func NewPositionServiceImpl(
 	positionRepository repository.PositionRepository,
-	userRepository repository.UserRepository,
+	userService service.UserService,
 	validate *validator.Validate,
 ) service.PositionService {
 	return &PositionServiceImpl{
 		PositionRepository: positionRepository,
-		UserRepository:     userRepository,
+		UserService:        userService,
 		Validate:           validate,
 	}
 }
 
 func (positionService *PositionServiceImpl) Create(request *request.PositionRequest, header dto.Header) response.PositionResponse {
 	positionService.validateRequest(request)
-	user := positionService.findUserById(header.UserId)
+	user := positionService.UserService.FindByIdDomain(header.UserId)
 
 	position := &domain.Position{}
 	position.Name = request.Name
@@ -46,7 +46,7 @@ func (positionService *PositionServiceImpl) Create(request *request.PositionRequ
 
 func (positionService *PositionServiceImpl) Update(id int64, request *request.PositionRequest, header dto.Header) response.PositionResponse {
 	positionService.validateRequest(request)
-	user := positionService.findUserById(header.UserId)
+	user := positionService.UserService.FindByIdDomain(header.UserId)
 
 	position := positionService.FindByIdDomain(id)
 	position.Name = request.Name
@@ -88,10 +88,4 @@ func (positionService *PositionServiceImpl) Delete(id int64) response.PositionRe
 func (positionService *PositionServiceImpl) validateRequest(request *request.PositionRequest) {
 	err := positionService.Validate.Struct(request)
 	exception.PanicErrorBusiness(fiber.StatusBadRequest, err)
-}
-
-func (positionService *PositionServiceImpl) findUserById(id int64) *domain.User {
-	user, err := positionService.UserRepository.FindById(id)
-	exception.PanicErrorBusiness(fiber.StatusBadRequest, err)
-	return user
 }

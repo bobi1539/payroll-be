@@ -36,7 +36,7 @@ func getPositionController(db *gorm.DB, validate *validator.Validate) controller
 func getPositionService(db *gorm.DB, validate *validator.Validate) service.PositionService {
 	return serviceimpl.NewPositionServiceImpl(
 		getPositionRepository(db),
-		getUserRepository(db),
+		getUserService(db, validate),
 		validate,
 	)
 }
