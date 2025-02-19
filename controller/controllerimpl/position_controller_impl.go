@@ -11,85 +11,85 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type UserControllerImpl struct {
-	UserService service.UserService
+type PositionControllerImpl struct {
+	PositionService service.PositionService
 }
 
-func NewUserControllerImpl(userService service.UserService) controller.UserController {
-	return &UserControllerImpl{
-		UserService: userService,
+func NewPositionControllerImpl(positionService service.PositionService) controller.PositionController {
+	return &PositionControllerImpl{
+		PositionService: positionService,
 	}
 }
 
-// @Tags	User
+// @Tags	Position
 // @Accept	json
 // @Produce	json
-// @Param	request 		body	request.UserCreateRequest	true	"Request body"
-// @Success	200	{object}	response.WebResponse{data=response.UserResponse}
+// @Param	request 		body	request.PositionRequest		true	"Request body"
+// @Success	200	{object}	response.WebResponse{data=response.PositionResponse}
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
-// @Router	/users			[post]
+// @Router	/positions		[post]
 // @Security 				BearerAuth
-func (userController *UserControllerImpl) Create(ctx *fiber.Ctx) error {
-	request := helper.BodyParser[request.UserCreateRequest](ctx)
+func (positionController *PositionControllerImpl) Create(ctx *fiber.Ctx) error {
+	request := helper.BodyParser[request.PositionRequest](ctx)
 	header := dto.GetHeader(ctx)
 
-	response := userController.UserService.Create(request, header)
+	response := positionController.PositionService.Create(request, header)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 
-// @Tags	User
+// @Tags	Position
 // @Accept	json
 // @Produce	json
 // @Param	id				path	int					true	"id"
-// @Param	request 		body	request.UserUpdateRequest	true	"Request body"
-// @Success	200	{object}	response.WebResponse{data=response.UserResponse}
+// @Param	request 		body	request.PositionRequest		true	"Request body"
+// @Success	200	{object}	response.WebResponse{data=response.PositionResponse}
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
-// @Router	/users/id/{id}	[put]
+// @Router	/positions/id/{id}		[put]
 // @Security 				BearerAuth
-func (userController *UserControllerImpl) Update(ctx *fiber.Ctx) error {
+func (positionController *PositionControllerImpl) Update(ctx *fiber.Ctx) error {
 	id := helper.GetParamId(ctx, constant.ID)
-	request := helper.BodyParser[request.UserUpdateRequest](ctx)
+	request := helper.BodyParser[request.PositionRequest](ctx)
 	header := dto.GetHeader(ctx)
 
-	response := userController.UserService.Update(id, request, header)
+	response := positionController.PositionService.Update(id, request, header)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 
-// @Tags	User
+// @Tags	Position
 // @Accept	json
 // @Produce	json
 // @Param	id				path	int					true	"id"
-// @Success	200	{object}	response.WebResponse{data=response.UserResponse}
+// @Success	200	{object}	response.WebResponse{data=response.PositionResponse}
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
-// @Router	/users/id/{id} 	[get]
+// @Router	/positions/id/{id} 		[get]
 // @Security 				BearerAuth
-func (userController *UserControllerImpl) FindById(ctx *fiber.Ctx) error {
+func (positionController *PositionControllerImpl) FindById(ctx *fiber.Ctx) error {
 	id := helper.GetParamId(ctx, constant.ID)
 
-	response := userController.UserService.FindById(id)
+	response := positionController.PositionService.FindById(id)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 
-// @Tags	User
+// @Tags	Position
 // @Accept	json
 // @Produce	json
 // @Param   search  		query	string	false	"Search"
-// @Success	200	{object}	response.WebResponse{data=[]response.UserResponse}
+// @Success	200	{object}	response.WebResponse{data=[]response.PositionResponse}
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
-// @Router	/users/all		[get]
+// @Router	/positions/all	[get]
 // @Security 				BearerAuth
-func (userController *UserControllerImpl) FindAll(ctx *fiber.Ctx) error {
+func (positionController *PositionControllerImpl) FindAll(ctx *fiber.Ctx) error {
 	search := dto.BuildSearch(ctx.Query(constant.SEARCH))
 
-	response := userController.UserService.FindAll(&search)
+	response := positionController.PositionService.FindAll(&search)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 
-// @Tags	User
+// @Tags	Position
 // @Accept	json
 // @Produce	json
 // @Param   search  		query	string	false	"Search"
@@ -98,31 +98,31 @@ func (userController *UserControllerImpl) FindAll(ctx *fiber.Ctx) error {
 // @Success	200	{object}	response.WebResponse{data=[]response.PaginationResponse}
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
-// @Router	/users			[get]
+// @Router	/positions		[get]
 // @Security 				BearerAuth
-func (userController *UserControllerImpl) FindAllPagination(ctx *fiber.Ctx) error {
+func (positionController *PositionControllerImpl) FindAllPagination(ctx *fiber.Ctx) error {
 	search := dto.BuildSearch(ctx.Query(constant.SEARCH))
 
 	pageNumber := ctx.Query(constant.PAGE_NUMBER)
 	pageSize := ctx.Query(constant.PAGE_SIZE)
 	pagination := dto.BuildPagination(pageNumber, pageSize)
 
-	response := userController.UserService.FindAllPagination(&search, &pagination)
+	response := positionController.PositionService.FindAllPagination(&search, &pagination)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 
-// @Tags	User
+// @Tags	Position
 // @Accept	json
 // @Produce	json
 // @Param	id				path	int					true	"id"
-// @Success	200	{object}	response.WebResponse{data=response.UserResponse}
+// @Success	200	{object}	response.WebResponse{data=response.PositionResponse}
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
-// @Router	/users/id/{id} 	[delete]
+// @Router	/positions/id/{id} 		[delete]
 // @Security 				BearerAuth
-func (userController *UserControllerImpl) Delete(ctx *fiber.Ctx) error {
+func (positionController *PositionControllerImpl) Delete(ctx *fiber.Ctx) error {
 	id := helper.GetParamId(ctx, constant.ID)
 
-	response := userController.UserService.Delete(id)
+	response := positionController.PositionService.Delete(id)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }

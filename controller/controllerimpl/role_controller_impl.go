@@ -15,7 +15,7 @@ type RoleControllerImpl struct {
 	RoleService service.RoleService
 }
 
-func NewRoleController(roleService service.RoleService) controller.RoleController {
+func NewRoleControllerImpl(roleService service.RoleService) controller.RoleController {
 	return &RoleControllerImpl{
 		RoleService: roleService,
 	}

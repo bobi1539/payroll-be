@@ -30,7 +30,7 @@ func SetUserEndpoint(fiberApp *fiber.App, db *gorm.DB, validate *validator.Valid
 }
 
 func getUserController(db *gorm.DB, validate *validator.Validate) controller.RoleController {
-	return controllerimpl.NewUserController(getUserService(db, validate))
+	return controllerimpl.NewUserControllerImpl(getUserService(db, validate))
 }
 
 func getUserService(db *gorm.DB, validate *validator.Validate) service.UserService {

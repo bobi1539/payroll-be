@@ -17,6 +17,13 @@ definitions:
     - password
     - username
     type: object
+  request.PositionRequest:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
   request.RoleRequest:
     properties:
       name:
@@ -71,6 +78,25 @@ definitions:
         type: integer
       totalPage:
         type: integer
+    type: object
+  response.PositionResponse:
+    properties:
+      createdAt:
+        type: string
+      createdBy:
+        type: integer
+      createdByName:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updatedAt:
+        type: string
+      updatedBy:
+        type: integer
+      updatedByName:
+        type: string
     type: object
   response.RoleResponse:
     properties:
@@ -194,6 +220,226 @@ paths:
             $ref: '#/definitions/response.WebResponse'
       tags:
       - Auth
+  /positions:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Search
+        in: query
+        name: search
+        type: string
+      - default: "1"
+        description: Page Number
+        in: query
+        name: pageNumber
+        type: string
+      - default: "10"
+        description: Page Size
+        in: query
+        name: pageSize
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/response.PaginationResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - Position
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.PositionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.PositionResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - Position
+  /positions/all:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/response.PositionResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - Position
+  /positions/id/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.PositionResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - Position
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.PositionResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - Position
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.PositionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.PositionResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - Position
   /roles:
     get:
       consumes:

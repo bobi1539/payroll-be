@@ -33,8 +33,8 @@ func NewRoleServiceImpl(
 }
 
 func (roleService *RoleServiceImpl) Create(request *request.RoleRequest, header dto.Header) response.RoleResponse {
-	user := roleService.findUserById(header.UserId)
 	roleService.validateRequest(request)
+	user := roleService.findUserById(header.UserId)
 
 	role := &domain.Role{}
 	role.Name = request.Name
@@ -45,8 +45,8 @@ func (roleService *RoleServiceImpl) Create(request *request.RoleRequest, header 
 }
 
 func (roleService *RoleServiceImpl) Update(id int64, request *request.RoleRequest, header dto.Header) response.RoleResponse {
-	user := roleService.findUserById(header.UserId)
 	roleService.validateRequest(request)
+	user := roleService.findUserById(header.UserId)
 
 	role := roleService.FindByIdDomain(id)
 	role.Name = request.Name
