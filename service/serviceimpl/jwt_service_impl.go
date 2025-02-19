@@ -53,7 +53,7 @@ func buildJwtClaims(user *domain.User) dto.JwtClaims {
 			Issuer:    config.GetString(constant.APP_NAME),
 			ExpiresAt: getJwtExpired(),
 		},
-		UserId: user.ID,
+		UserId: user.Id,
 	}
 }
 

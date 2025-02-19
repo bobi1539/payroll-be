@@ -3,7 +3,7 @@ package domain
 import "time"
 
 type RefreshToken struct {
-	ID       int64     `gorm:"primary_key;column:id"`
+	Id       int64     `gorm:"primary_key;column:id"`
 	Token    string    `gorm:"column:token"`
 	Validity time.Time `gorm:"column:validity"`
 	UserID   int64     `gorm:"column:user_id"`

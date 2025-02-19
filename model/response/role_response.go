@@ -12,7 +12,7 @@ type RoleResponse struct {
 
 func ToRoleResponse(role *domain.Role) RoleResponse {
 	return RoleResponse{
-		Id:                 role.ID,
+		Id:                 role.Id,
 		Name:               role.Name,
 		BaseDomainResponse: ToBaseDomainResponse(&role.BaseDomain),
 	}

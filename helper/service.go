@@ -7,12 +7,12 @@ import (
 
 func SetCreated(base *domain.BaseDomain, user *domain.User) {
 	base.CreatedAt = time.Now()
-	base.CreatedBy = user.ID
+	base.CreatedBy = user.Id
 	base.CreatedByName = user.Name
 }
 
 func SetUpdated(base *domain.BaseDomain, user *domain.User) {
 	base.UpdatedAt = time.Now()
-	base.UpdatedBy = user.ID
+	base.UpdatedBy = user.Id
 	base.UpdatedByName = user.Name
 }

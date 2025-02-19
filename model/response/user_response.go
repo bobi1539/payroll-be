@@ -3,7 +3,7 @@ package response
 import "payroll/model/domain"
 
 type UserResponse struct {
-	ID       int64        `json:"id"`
+	Id       int64        `json:"id"`
 	Name     string       `json:"name"`
 	Username string       `json:"username"`
 	Role     RoleResponse `json:"role"`
@@ -12,7 +12,7 @@ type UserResponse struct {
 
 func ToUserResponse(user *domain.User) UserResponse {
 	return UserResponse{
-		ID:                 user.ID,
+		Id:                 user.Id,
 		Name:               user.Name,
 		Username:           user.Username,
 		Role:               ToRoleResponse(user.Role),

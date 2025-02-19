@@ -31,7 +31,7 @@ func (userValidationService *UserValidationServiceImpl) ValidateCreateUsername(u
 
 func (userValidationService *UserValidationServiceImpl) ValidateUpdateUsername(username string, userExisting *domain.User) {
 	user, _ := userValidationService.UserRepository.FindByUsername(username)
-	if user != nil && user.ID != userExisting.ID {
+	if user != nil && user.Id != userExisting.Id {
 		exception.PanicErrorBusiness(fiber.StatusBadRequest, errors.New(constant.USERNAME_ALREADY_REGISTERED))
 	}
 }

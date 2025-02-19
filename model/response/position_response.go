@@ -10,7 +10,7 @@ type PositionResponse struct {
 
 func ToPositionResponse(position *domain.Position) PositionResponse {
 	return PositionResponse{
-		Id:                 position.ID,
+		Id:                 position.Id,
 		Name:               position.Name,
 		BaseDomainResponse: ToBaseDomainResponse(&position.BaseDomain),
 	}

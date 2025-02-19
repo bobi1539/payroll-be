@@ -3,12 +3,12 @@ package domain
 const USER = "User"
 
 type User struct {
-	ID         int64      `gorm:"primary_key;column:id"`
+	Id         int64      `gorm:"primary_key;column:id"`
 	Name       string     `gorm:"column:name"`
 	Username   string     `gorm:"column:username"`
 	Password   string     `gorm:"column:password"`
-	RoleID     int64      `gorm:"column:role_id"`
-	Role       *Role      `gorm:"foreignKey:RoleID;references:ID"`
+	RoleId     int64      `gorm:"column:role_id"`
+	Role       *Role      `gorm:"foreignKey:RoleId;references:Id"`
 	BaseDomain BaseDomain `gorm:"embedded"`
 }
 
