@@ -1,5 +1,18 @@
 basePath: /api
 definitions:
+  request.BasicSalaryRequest:
+    properties:
+      positionId:
+        type: integer
+      salaryAmount:
+        type: integer
+      totalYear:
+        type: integer
+    required:
+    - positionId
+    - salaryAmount
+    - totalYear
+    type: object
   request.LoginRefreshTokenRequest:
     properties:
       refreshToken:
@@ -59,6 +72,29 @@ definitions:
     - name
     - roleId
     - username
+    type: object
+  response.BasicSalaryResponse:
+    properties:
+      createdAt:
+        type: string
+      createdBy:
+        type: integer
+      createdByName:
+        type: string
+      id:
+        type: integer
+      position:
+        $ref: '#/definitions/response.PositionResponse'
+      salaryAmount:
+        type: integer
+      totalYear:
+        type: integer
+      updatedAt:
+        type: string
+      updatedBy:
+        type: integer
+      updatedByName:
+        type: string
     type: object
   response.LoginResponse:
     properties:
@@ -220,6 +256,217 @@ paths:
             $ref: '#/definitions/response.WebResponse'
       tags:
       - Auth
+  /basic-salaries:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - default: "1"
+        description: Page Number
+        in: query
+        name: pageNumber
+        type: string
+      - default: "10"
+        description: Page Size
+        in: query
+        name: pageSize
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/response.PaginationResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - BasicSalary
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.BasicSalaryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.BasicSalaryResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - BasicSalary
+  /basic-salaries/all:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/response.BasicSalaryResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - BasicSalary
+  /basic-salaries/id/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.BasicSalaryResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - BasicSalary
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.BasicSalaryResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - BasicSalary
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.BasicSalaryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.BasicSalaryResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - BasicSalary
   /positions:
     get:
       consumes:

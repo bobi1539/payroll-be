@@ -5,7 +5,7 @@ type BasicSalary struct {
 	SalaryAmount int64      `gorm:"column:salary_amount"`
 	TotalYear    int32      `gorm:"column:total_year"`
 	PositionId   int64      `gorm:"column:position_id"`
-	Position     *Position  `gorm:"foreignKey:PositionID;references:Id"`
+	Position     *Position  `gorm:"foreignKey:PositionId;references:Id"`
 	BaseDomain   BaseDomain `gorm:"embedded"`
 }
 
