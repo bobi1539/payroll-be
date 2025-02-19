@@ -43,7 +43,7 @@ func (positionRepository *PositionRepositoryImpl) FindById(id int64) (*domain.Po
 	result := positionRepository.DB.First(position, "id = ?", id)
 
 	if result.Error != nil {
-		return position, errors.New(constant.DATA_NOT_FOUND)
+		return position, errors.New(constant.POSITION_NOT_FOUND)
 	}
 	return position, nil
 }

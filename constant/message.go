@@ -2,6 +2,10 @@ package constant
 
 const SUCCESS = "success | sukses"
 const DATA_NOT_FOUND = "data not found | data tidak ditemukan"
+const ROLE_NOT_FOUND = "role not found | role tidak ditemukan"
+const USER_NOT_FOUND = "user not found | user tidak ditemukan"
+const POSITION_NOT_FOUND = "position not found | jabatan tidak ditemukan"
+const BASIC_SALARY_NOT_FOUND = "basic salary not found | gaji pokok tidak ditemukan"
 const USERNAME_ALREADY_REGISTERED = "username already registered | username telah terdaftar"
 const PASSWORD_MIN_10 = "password minimun 10 character | password minimal 10 karakter"
 const PASSWORD_DIGIT_UPPER_LOWER = "password must contain number, upper and lower | password harus ada angka, huruf kapital dan huruf kecil"

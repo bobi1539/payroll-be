@@ -44,7 +44,7 @@ func (basicSalaryRepository *BasicSalaryRepositoryImpl) FindById(id int64) (*dom
 		First(basicSalary, "id = ?", id)
 
 	if result.Error != nil {
-		return basicSalary, errors.New(constant.DATA_NOT_FOUND)
+		return basicSalary, errors.New(constant.BASIC_SALARY_NOT_FOUND)
 	}
 	return basicSalary, nil
 }

@@ -45,7 +45,7 @@ func (userRepository *UserRepositoryImpl) FindById(id int64) (*domain.User, erro
 		First(&user, "id = ?", id)
 
 	if result.Error != nil {
-		return user, errors.New(constant.DATA_NOT_FOUND)
+		return user, errors.New(constant.USER_NOT_FOUND)
 	}
 	return user, nil
 }

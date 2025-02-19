@@ -43,7 +43,7 @@ func (roleRepository *RoleRepositoryImpl) FindById(id int64) (*domain.Role, erro
 	result := roleRepository.DB.First(role, "id = ?", id)
 
 	if result.Error != nil {
-		return role, errors.New(constant.DATA_NOT_FOUND)
+		return role, errors.New(constant.ROLE_NOT_FOUND)
 	}
 	return role, nil
 }
