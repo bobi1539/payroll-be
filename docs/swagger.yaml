@@ -1,6 +1,6 @@
 basePath: /api
 definitions:
-  request.AllowanceRequest:
+  request.AllowanceTypeRequest:
     properties:
       name:
         type: string
@@ -80,7 +80,7 @@ definitions:
     - roleId
     - username
     type: object
-  response.AllowanceResponse:
+  response.AllowanceTypeResponse:
     properties:
       createdAt:
         type: string
@@ -216,7 +216,7 @@ info:
   title: PAYROLL API
   version: "1.0"
 paths:
-  /allowances:
+  /allowance-types:
     get:
       consumes:
       - application/json
@@ -260,7 +260,7 @@ paths:
       security:
       - BearerAuth: []
       tags:
-      - Allowance
+      - AllowanceType
     post:
       consumes:
       - application/json
@@ -270,7 +270,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/request.AllowanceRequest'
+          $ref: '#/definitions/request.AllowanceTypeRequest'
       produces:
       - application/json
       responses:
@@ -281,7 +281,7 @@ paths:
             - $ref: '#/definitions/response.WebResponse'
             - properties:
                 data:
-                  $ref: '#/definitions/response.AllowanceResponse'
+                  $ref: '#/definitions/response.AllowanceTypeResponse'
               type: object
         "400":
           description: Bad Request
@@ -294,8 +294,8 @@ paths:
       security:
       - BearerAuth: []
       tags:
-      - Allowance
-  /allowances/all:
+      - AllowanceType
+  /allowance-types/all:
     get:
       consumes:
       - application/json
@@ -315,7 +315,7 @@ paths:
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/response.AllowanceResponse'
+                    $ref: '#/definitions/response.AllowanceTypeResponse'
                   type: array
               type: object
         "400":
@@ -329,8 +329,8 @@ paths:
       security:
       - BearerAuth: []
       tags:
-      - Allowance
-  /allowances/id/{id}:
+      - AllowanceType
+  /allowance-types/id/{id}:
     delete:
       consumes:
       - application/json
@@ -350,7 +350,7 @@ paths:
             - $ref: '#/definitions/response.WebResponse'
             - properties:
                 data:
-                  $ref: '#/definitions/response.AllowanceResponse'
+                  $ref: '#/definitions/response.AllowanceTypeResponse'
               type: object
         "400":
           description: Bad Request
@@ -363,7 +363,7 @@ paths:
       security:
       - BearerAuth: []
       tags:
-      - Allowance
+      - AllowanceType
     get:
       consumes:
       - application/json
@@ -383,7 +383,7 @@ paths:
             - $ref: '#/definitions/response.WebResponse'
             - properties:
                 data:
-                  $ref: '#/definitions/response.AllowanceResponse'
+                  $ref: '#/definitions/response.AllowanceTypeResponse'
               type: object
         "400":
           description: Bad Request
@@ -396,7 +396,7 @@ paths:
       security:
       - BearerAuth: []
       tags:
-      - Allowance
+      - AllowanceType
     put:
       consumes:
       - application/json
@@ -411,7 +411,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/request.AllowanceRequest'
+          $ref: '#/definitions/request.AllowanceTypeRequest'
       produces:
       - application/json
       responses:
@@ -422,7 +422,7 @@ paths:
             - $ref: '#/definitions/response.WebResponse'
             - properties:
                 data:
-                  $ref: '#/definitions/response.AllowanceResponse'
+                  $ref: '#/definitions/response.AllowanceTypeResponse'
               type: object
         "400":
           description: Bad Request
@@ -435,7 +435,7 @@ paths:
       security:
       - BearerAuth: []
       tags:
-      - Allowance
+      - AllowanceType
   /auths/login:
     post:
       consumes:

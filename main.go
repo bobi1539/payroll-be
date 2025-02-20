@@ -53,5 +53,5 @@ func setEndpoint(fiberApp *fiber.App, db *gorm.DB, validate *validator.Validate)
 	endpoint.SetAuthEndpoint(fiberApp, db, validate)
 	endpoint.SetPositionEndpoint(fiberApp, db, validate)
 	endpoint.SetBasicSalaryEndpoint(fiberApp, db, validate)
-	endpoint.SetAllowanceEndpoint(fiberApp, db, validate)
+	endpoint.SetAllowanceTypeEndpoint(fiberApp, db, validate)
 }

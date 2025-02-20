@@ -10,7 +10,7 @@ type AllowanceRepository interface {
 	Update(allowance *domain.Allowance) *domain.Allowance
 	Delete(id int64)
 	FindById(id int64) (*domain.Allowance, error)
-	FindAll(search *dto.Search) []domain.Allowance
-	FindAllPagination(search *dto.Search, pagination *dto.Pagination) []domain.Allowance
+	FindAll() []domain.Allowance
+	FindAllPagination(pagination *dto.Pagination) []domain.Allowance
 	FindTotalItem() int64
 }

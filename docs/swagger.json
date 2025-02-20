@@ -8,7 +8,7 @@
     },
     "basePath": "/api",
     "paths": {
-        "/allowances": {
+        "/allowance-types": {
             "get": {
                 "security": [
                     {
@@ -22,7 +22,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Allowance"
+                    "AllowanceType"
                 ],
                 "parameters": [
                     {
@@ -95,7 +95,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Allowance"
+                    "AllowanceType"
                 ],
                 "parameters": [
                     {
@@ -104,7 +104,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.AllowanceRequest"
+                            "$ref": "#/definitions/request.AllowanceTypeRequest"
                         }
                     }
                 ],
@@ -120,7 +120,7 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/response.AllowanceResponse"
+                                            "$ref": "#/definitions/response.AllowanceTypeResponse"
                                         }
                                     }
                                 }
@@ -142,7 +142,7 @@
                 }
             }
         },
-        "/allowances/all": {
+        "/allowance-types/all": {
             "get": {
                 "security": [
                     {
@@ -156,7 +156,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Allowance"
+                    "AllowanceType"
                 ],
                 "parameters": [
                     {
@@ -180,7 +180,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/response.AllowanceResponse"
+                                                "$ref": "#/definitions/response.AllowanceTypeResponse"
                                             }
                                         }
                                     }
@@ -203,7 +203,7 @@
                 }
             }
         },
-        "/allowances/id/{id}": {
+        "/allowance-types/id/{id}": {
             "get": {
                 "security": [
                     {
@@ -217,7 +217,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Allowance"
+                    "AllowanceType"
                 ],
                 "parameters": [
                     {
@@ -240,7 +240,7 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/response.AllowanceResponse"
+                                            "$ref": "#/definitions/response.AllowanceTypeResponse"
                                         }
                                     }
                                 }
@@ -274,7 +274,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Allowance"
+                    "AllowanceType"
                 ],
                 "parameters": [
                     {
@@ -290,7 +290,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.AllowanceRequest"
+                            "$ref": "#/definitions/request.AllowanceTypeRequest"
                         }
                     }
                 ],
@@ -306,7 +306,7 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/response.AllowanceResponse"
+                                            "$ref": "#/definitions/response.AllowanceTypeResponse"
                                         }
                                     }
                                 }
@@ -340,7 +340,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Allowance"
+                    "AllowanceType"
                 ],
                 "parameters": [
                     {
@@ -363,7 +363,7 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/response.AllowanceResponse"
+                                            "$ref": "#/definitions/response.AllowanceTypeResponse"
                                         }
                                     }
                                 }
@@ -1993,7 +1993,7 @@
         }
     },
     "definitions": {
-        "request.AllowanceRequest": {
+        "request.AllowanceTypeRequest": {
             "type": "object",
             "required": [
                 "name"
@@ -2113,7 +2113,7 @@
                 }
             }
         },
-        "response.AllowanceResponse": {
+        "response.AllowanceTypeResponse": {
             "type": "object",
             "properties": {
                 "createdAt": {

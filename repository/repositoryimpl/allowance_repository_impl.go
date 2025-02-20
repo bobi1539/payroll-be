@@ -4,7 +4,6 @@ import (
 	"errors"
 	"payroll/constant"
 	"payroll/exception"
-	"payroll/helper"
 	"payroll/model/domain"
 	"payroll/model/dto"
 	"payroll/repository"
@@ -40,7 +39,10 @@ func (allowanceRepository *AllowanceRepositoryImpl) Delete(id int64) {
 
 func (allowanceRepository *AllowanceRepositoryImpl) FindById(id int64) (*domain.Allowance, error) {
 	allowance := &domain.Allowance{}
-	result := allowanceRepository.DB.First(allowance, "id = ?", id)
+	result := allowanceRepository.DB.
+		Preload(domain.POSITION).
+		Preload(domain.ALLOWANCE_TYPE).
+		First(allowance, "id = ?", id)
 
 	if result.Error != nil {
 		return allowance, errors.New(constant.ALLOWANCE_NOT_FOUND)
@@ -48,19 +50,21 @@ func (allowanceRepository *AllowanceRepositoryImpl) FindById(id int64) (*domain.
 	return allowance, nil
 }
 
-func (allowanceRepository *AllowanceRepositoryImpl) FindAll(search *dto.Search) []domain.Allowance {
+func (allowanceRepository *AllowanceRepositoryImpl) FindAll() []domain.Allowance {
 	var allowances []domain.Allowance
 	allowanceRepository.DB.
-		Where(allowanceRepository.searchLike(), helper.StringQueryLike(search.Value)).
+		Preload(domain.POSITION).
+		Preload(domain.ALLOWANCE_TYPE).
 		Order("id ASC").
 		Find(&allowances)
 	return allowances
 }
 
-func (allowanceRepository *AllowanceRepositoryImpl) FindAllPagination(search *dto.Search, pagination *dto.Pagination) []domain.Allowance {
+func (allowanceRepository *AllowanceRepositoryImpl) FindAllPagination(pagination *dto.Pagination) []domain.Allowance {
 	var allowances []domain.Allowance
 	allowanceRepository.DB.
-		Where(allowanceRepository.searchLike(), helper.StringQueryLike(search.Value)).
+		Preload(domain.POSITION).
+		Preload(domain.ALLOWANCE_TYPE).
 		Order("id ASC").
 		Offset(pagination.PageNumber).
 		Limit(pagination.PageSize).
@@ -74,8 +78,4 @@ func (allowanceRepository *AllowanceRepositoryImpl) FindTotalItem() int64 {
 		Model(&domain.Allowance{}).
 		Count(&totalItem)
 	return totalItem
-}
-
-func (allowanceRepository *AllowanceRepositoryImpl) searchLike() string {
-	return "LOWER(name) LIKE ?"
 }

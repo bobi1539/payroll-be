@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/allowances": {
+        "/allowance-types": {
             "get": {
                 "security": [
                     {
@@ -29,7 +29,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Allowance"
+                    "AllowanceType"
                 ],
                 "parameters": [
                     {
@@ -102,7 +102,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Allowance"
+                    "AllowanceType"
                 ],
                 "parameters": [
                     {
@@ -111,7 +111,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.AllowanceRequest"
+                            "$ref": "#/definitions/request.AllowanceTypeRequest"
                         }
                     }
                 ],
@@ -127,7 +127,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/response.AllowanceResponse"
+                                            "$ref": "#/definitions/response.AllowanceTypeResponse"
                                         }
                                     }
                                 }
@@ -149,7 +149,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/allowances/all": {
+        "/allowance-types/all": {
             "get": {
                 "security": [
                     {
@@ -163,7 +163,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Allowance"
+                    "AllowanceType"
                 ],
                 "parameters": [
                     {
@@ -187,7 +187,7 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/response.AllowanceResponse"
+                                                "$ref": "#/definitions/response.AllowanceTypeResponse"
                                             }
                                         }
                                     }
@@ -210,7 +210,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/allowances/id/{id}": {
+        "/allowance-types/id/{id}": {
             "get": {
                 "security": [
                     {
@@ -224,7 +224,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Allowance"
+                    "AllowanceType"
                 ],
                 "parameters": [
                     {
@@ -247,7 +247,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/response.AllowanceResponse"
+                                            "$ref": "#/definitions/response.AllowanceTypeResponse"
                                         }
                                     }
                                 }
@@ -281,7 +281,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Allowance"
+                    "AllowanceType"
                 ],
                 "parameters": [
                     {
@@ -297,7 +297,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.AllowanceRequest"
+                            "$ref": "#/definitions/request.AllowanceTypeRequest"
                         }
                     }
                 ],
@@ -313,7 +313,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/response.AllowanceResponse"
+                                            "$ref": "#/definitions/response.AllowanceTypeResponse"
                                         }
                                     }
                                 }
@@ -347,7 +347,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Allowance"
+                    "AllowanceType"
                 ],
                 "parameters": [
                     {
@@ -370,7 +370,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/response.AllowanceResponse"
+                                            "$ref": "#/definitions/response.AllowanceTypeResponse"
                                         }
                                     }
                                 }
@@ -2000,7 +2000,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "request.AllowanceRequest": {
+        "request.AllowanceTypeRequest": {
             "type": "object",
             "required": [
                 "name"
@@ -2120,7 +2120,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.AllowanceResponse": {
+        "response.AllowanceTypeResponse": {
             "type": "object",
             "properties": {
                 "createdAt": {

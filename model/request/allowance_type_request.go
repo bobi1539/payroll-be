@@ -1,5 +1,5 @@
 package request
 
-type AllowanceRequest struct {
+type AllowanceTypeRequest struct {
 	Name string `validate:"required" json:"name"`
 }

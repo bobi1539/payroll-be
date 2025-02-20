@@ -11,83 +11,83 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type AllowanceControllerImpl struct {
-	AllowanceService service.AllowanceService
+type AllowanceTypeControllerImpl struct {
+	AllowanceTypeService service.AllowanceTypeService
 }
 
-func NewAllowanceControllerImpl(allowanceService service.AllowanceService) controller.AllowanceController {
-	return &AllowanceControllerImpl{AllowanceService: allowanceService}
+func NewAllowanceTypeControllerImpl(allowanceTypeService service.AllowanceTypeService) controller.AllowanceTypeController {
+	return &AllowanceTypeControllerImpl{AllowanceTypeService: allowanceTypeService}
 }
 
-// @Tags	Allowance
+// @Tags	AllowanceType
 // @Accept	json
 // @Produce	json
-// @Param	request 		body	request.AllowanceRequest		true	"Request body"
-// @Success	200	{object}	response.WebResponse{data=response.AllowanceResponse}
+// @Param	request 		body	request.AllowanceTypeRequest		true	"Request body"
+// @Success	200	{object}	response.WebResponse{data=response.AllowanceTypeResponse}
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
-// @Router	/allowances		[post]
+// @Router	/allowance-types		[post]
 // @Security 				BearerAuth
-func (allowanceController *AllowanceControllerImpl) Create(ctx *fiber.Ctx) error {
-	request := helper.BodyParser[request.AllowanceRequest](ctx)
+func (atController *AllowanceTypeControllerImpl) Create(ctx *fiber.Ctx) error {
+	request := helper.BodyParser[request.AllowanceTypeRequest](ctx)
 	header := dto.GetHeader(ctx)
 
-	response := allowanceController.AllowanceService.Create(request, header)
+	response := atController.AllowanceTypeService.Create(request, header)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 
-// @Tags	Allowance
+// @Tags	AllowanceType
 // @Accept	json
 // @Produce	json
 // @Param	id				path	int					true	"id"
-// @Param	request 		body	request.AllowanceRequest	true	"Request body"
-// @Success	200	{object}	response.WebResponse{data=response.AllowanceResponse}
+// @Param	request 		body	request.AllowanceTypeRequest	true	"Request body"
+// @Success	200	{object}	response.WebResponse{data=response.AllowanceTypeResponse}
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
-// @Router	/allowances/id/{id}		[put]
+// @Router	/allowance-types/id/{id}					[put]
 // @Security 				BearerAuth
-func (allowanceController *AllowanceControllerImpl) Update(ctx *fiber.Ctx) error {
+func (atController *AllowanceTypeControllerImpl) Update(ctx *fiber.Ctx) error {
 	id := helper.GetParamId(ctx, constant.ID)
-	request := helper.BodyParser[request.AllowanceRequest](ctx)
+	request := helper.BodyParser[request.AllowanceTypeRequest](ctx)
 	header := dto.GetHeader(ctx)
 
-	response := allowanceController.AllowanceService.Update(id, request, header)
+	response := atController.AllowanceTypeService.Update(id, request, header)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 
-// @Tags	Allowance
+// @Tags	AllowanceType
 // @Accept	json
 // @Produce	json
 // @Param	id				path	int					true	"id"
-// @Success	200	{object}	response.WebResponse{data=response.AllowanceResponse}
+// @Success	200	{object}	response.WebResponse{data=response.AllowanceTypeResponse}
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
-// @Router	/allowances/id/{id} 		[get]
+// @Router	/allowance-types/id/{id} 					[get]
 // @Security 				BearerAuth
-func (allowanceController *AllowanceControllerImpl) FindById(ctx *fiber.Ctx) error {
+func (atController *AllowanceTypeControllerImpl) FindById(ctx *fiber.Ctx) error {
 	id := helper.GetParamId(ctx, constant.ID)
 
-	response := allowanceController.AllowanceService.FindById(id)
+	response := atController.AllowanceTypeService.FindById(id)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 
-// @Tags	Allowance
+// @Tags	AllowanceType
 // @Accept	json
 // @Produce	json
 // @Param   search  		query	string	false	"Search"
-// @Success	200	{object}	response.WebResponse{data=[]response.AllowanceResponse}
+// @Success	200	{object}	response.WebResponse{data=[]response.AllowanceTypeResponse}
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
-// @Router	/allowances/all	[get]
+// @Router	/allowance-types/all	[get]
 // @Security 				BearerAuth
-func (allowanceController *AllowanceControllerImpl) FindAll(ctx *fiber.Ctx) error {
+func (atController *AllowanceTypeControllerImpl) FindAll(ctx *fiber.Ctx) error {
 	search := dto.BuildSearch(ctx.Query(constant.SEARCH))
 
-	response := allowanceController.AllowanceService.FindAll(&search)
+	response := atController.AllowanceTypeService.FindAll(&search)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 
-// @Tags	Allowance
+// @Tags	AllowanceType
 // @Accept	json
 // @Produce	json
 // @Param   search  		query	string	false	"Search"
@@ -96,31 +96,31 @@ func (allowanceController *AllowanceControllerImpl) FindAll(ctx *fiber.Ctx) erro
 // @Success	200	{object}	response.WebResponse{data=[]response.PaginationResponse}
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
-// @Router	/allowances		[get]
+// @Router	/allowance-types				[get]
 // @Security 				BearerAuth
-func (allowanceController *AllowanceControllerImpl) FindAllPagination(ctx *fiber.Ctx) error {
+func (atController *AllowanceTypeControllerImpl) FindAllPagination(ctx *fiber.Ctx) error {
 	search := dto.BuildSearch(ctx.Query(constant.SEARCH))
 
 	pageNumber := ctx.Query(constant.PAGE_NUMBER)
 	pageSize := ctx.Query(constant.PAGE_SIZE)
 	pagination := dto.BuildPagination(pageNumber, pageSize)
 
-	response := allowanceController.AllowanceService.FindAllPagination(&search, &pagination)
+	response := atController.AllowanceTypeService.FindAllPagination(&search, &pagination)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 
-// @Tags	Allowance
+// @Tags	AllowanceType
 // @Accept	json
 // @Produce	json
 // @Param	id				path	int					true	"id"
-// @Success	200	{object}	response.WebResponse{data=response.AllowanceResponse}
+// @Success	200	{object}	response.WebResponse{data=response.AllowanceTypeResponse}
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
-// @Router	/allowances/id/{id} 	[delete]
+// @Router	/allowance-types/id/{id} 					[delete]
 // @Security 				BearerAuth
-func (allowanceController *AllowanceControllerImpl) Delete(ctx *fiber.Ctx) error {
+func (atController *AllowanceTypeControllerImpl) Delete(ctx *fiber.Ctx) error {
 	id := helper.GetParamId(ctx, constant.ID)
 
-	response := allowanceController.AllowanceService.Delete(id)
+	response := atController.AllowanceTypeService.Delete(id)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
