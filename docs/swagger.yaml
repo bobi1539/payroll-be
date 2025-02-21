@@ -1,5 +1,18 @@
 basePath: /api
 definitions:
+  request.AllowanceRequest:
+    properties:
+      allowanceAmount:
+        type: integer
+      allowanceTypeId:
+        type: integer
+      positionId:
+        type: integer
+    required:
+    - allowanceAmount
+    - allowanceTypeId
+    - positionId
+    type: object
   request.AllowanceTypeRequest:
     properties:
       name:
@@ -79,6 +92,29 @@ definitions:
     - name
     - roleId
     - username
+    type: object
+  response.AllowanceResponse:
+    properties:
+      allowanceAmount:
+        type: integer
+      allowanceType:
+        $ref: '#/definitions/response.AllowanceTypeResponse'
+      createdAt:
+        type: string
+      createdBy:
+        type: integer
+      createdByName:
+        type: string
+      id:
+        type: integer
+      position:
+        $ref: '#/definitions/response.PositionResponse'
+      updatedAt:
+        type: string
+      updatedBy:
+        type: integer
+      updatedByName:
+        type: string
     type: object
   response.AllowanceTypeResponse:
     properties:
@@ -436,6 +472,217 @@ paths:
       - BearerAuth: []
       tags:
       - AllowanceType
+  /allowances:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - default: "1"
+        description: Page Number
+        in: query
+        name: pageNumber
+        type: string
+      - default: "10"
+        description: Page Size
+        in: query
+        name: pageSize
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/response.PaginationResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - Allowance
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.AllowanceRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.AllowanceResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - Allowance
+  /allowances/all:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/response.AllowanceResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - Allowance
+  /allowances/id/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.AllowanceResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - Allowance
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.AllowanceResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - Allowance
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.AllowanceRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.AllowanceResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - Allowance
   /auths/login:
     post:
       consumes:
