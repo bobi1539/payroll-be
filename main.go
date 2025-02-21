@@ -42,6 +42,7 @@ func getFiberApp() *fiber.App {
 		ErrorHandler: exception.ErrorHandler,
 	})
 	fiberApp.Use(recover.New())
+	fiberApp.Use(middleware.CorsMiddleware())
 	fiberApp.Use(middleware.JwtMiddleware)
 	return fiberApp
 }
