@@ -1,0 +1,14 @@
+app:
+  name: ${PAYROLL_BE_APP_NAME}
+
+database:
+  host: ${PAYROLL_BE_DATABASE_HOST}
+  port: ${PAYROLL_BE_DATABASE_PORT}
+  username: ${PAYROLL_BE_DATABASE_USERNAME}
+  password: ${PAYROLL_BE_DATABASE_PASSWORD}
+  name: ${PAYROLL_BE_DATABASE_NAME}
+  showSql: ${PAYROLL_BE_DATABASE_SHOW_SQL}
+
+jwt:
+  key: ${PAYROLL_BE_JWT_KEY}
+  expired: ${PAYROLL_BE_JWT_EXPIRED}
