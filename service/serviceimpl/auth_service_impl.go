@@ -61,7 +61,7 @@ func (authService *AuthServiceImpl) LoginRefreshToken(request *request.LoginRefr
 
 	refreshToken, err := authService.RefreshTokenRepository.FindByTokenAndValidityIsValid(request.RefreshToken)
 	if err != nil {
-		exception.PanicErrorBusiness(fiber.StatusUnauthorized, errors.New(constant.TOKEN_NOT_VALID))
+		exception.PanicErrorBusiness(fiber.StatusBadRequest, errors.New(constant.TOKEN_NOT_VALID))
 	}
 
 	jwtToken := authService.JwtService.GenerateJwtToken(refreshToken.User)
@@ -76,7 +76,7 @@ func validatePassword(hashPassword string, password string) {
 }
 
 func wrongUsernamePassword() {
-	exception.PanicErrorBusiness(fiber.StatusUnauthorized, errors.New(constant.WRONG_USERNAME_PASSWORD))
+	exception.PanicErrorBusiness(fiber.StatusBadRequest, errors.New(constant.WRONG_USERNAME_PASSWORD))
 }
 
 func (authService *AuthServiceImpl) createRefreshToken(user *domain.User) string {
