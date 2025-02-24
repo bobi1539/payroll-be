@@ -12,5 +12,5 @@ type PositionRepository interface {
 	FindById(id int64) (*domain.Position, error)
 	FindAll(search *dto.Search) []domain.Position
 	FindAllPagination(search *dto.Search, pagination *dto.Pagination) []domain.Position
-	FindTotalItem() int64
+	FindTotalItem(search *dto.Search) int64
 }

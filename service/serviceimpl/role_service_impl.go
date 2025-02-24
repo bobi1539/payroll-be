@@ -73,7 +73,7 @@ func (roleService *RoleServiceImpl) FindAll(search *dto.Search) []response.RoleR
 
 func (roleService *RoleServiceImpl) FindAllPagination(search *dto.Search, pagination *dto.Pagination) response.PaginationResponse {
 	roles := roleService.RoleRepository.FindAllPagination(search, pagination)
-	totalItem := roleService.RoleRepository.FindTotalItem()
+	totalItem := roleService.RoleRepository.FindTotalItem(search)
 
 	responses := response.ToRoleResponses(roles)
 	return response.ToPaginationResponse(responses, pagination.PageNumber, pagination.PageSize, totalItem)

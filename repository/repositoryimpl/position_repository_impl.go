@@ -68,10 +68,11 @@ func (positionRepository *PositionRepositoryImpl) FindAllPagination(search *dto.
 	return positions
 }
 
-func (positionRepository *PositionRepositoryImpl) FindTotalItem() int64 {
+func (positionRepository *PositionRepositoryImpl) FindTotalItem(search *dto.Search) int64 {
 	var totalItem int64
 	positionRepository.DB.
 		Model(&domain.Position{}).
+		Where(positionRepository.searchLike(), helper.StringQueryLike(search.Value)).
 		Count(&totalItem)
 	return totalItem
 }

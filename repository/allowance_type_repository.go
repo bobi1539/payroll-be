@@ -12,5 +12,5 @@ type AllowanceTypeRepository interface {
 	FindById(id int64) (*domain.AllowanceType, error)
 	FindAll(search *dto.Search) []domain.AllowanceType
 	FindAllPagination(search *dto.Search, pagination *dto.Pagination) []domain.AllowanceType
-	FindTotalItem() int64
+	FindTotalItem(search *dto.Search) int64
 }

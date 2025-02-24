@@ -12,5 +12,5 @@ type RoleRepository interface {
 	FindById(id int64) (*domain.Role, error)
 	FindAll(search *dto.Search) []domain.Role
 	FindAllPagination(search *dto.Search, pagination *dto.Pagination) []domain.Role
-	FindTotalItem() int64
+	FindTotalItem(search *dto.Search) int64
 }

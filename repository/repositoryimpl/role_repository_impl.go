@@ -68,10 +68,11 @@ func (roleRepository *RoleRepositoryImpl) FindAllPagination(search *dto.Search, 
 	return roles
 }
 
-func (roleRepository *RoleRepositoryImpl) FindTotalItem() int64 {
+func (roleRepository *RoleRepositoryImpl) FindTotalItem(search *dto.Search) int64 {
 	var totalItem int64
 	roleRepository.DB.
 		Model(&domain.Role{}).
+		Where(roleRepository.searchLike(), helper.StringQueryLike(search.Value)).
 		Count(&totalItem)
 	return totalItem
 }

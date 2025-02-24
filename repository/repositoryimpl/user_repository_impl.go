@@ -74,10 +74,12 @@ func (userRepository *UserRepositoryImpl) FindAllPagination(search *dto.Search, 
 	return users
 }
 
-func (userRepository *UserRepositoryImpl) FindTotalItem() int64 {
+func (userRepository *UserRepositoryImpl) FindTotalItem(search *dto.Search) int64 {
 	var totalItem int64
+	valueLike := helper.StringQueryLike(search.Value)
 	userRepository.DB.
 		Model(&domain.User{}).
+		Where(userRepository.searchLike(), valueLike, valueLike).
 		Count(&totalItem)
 	return totalItem
 }

@@ -83,7 +83,7 @@ func (userService *UserServiceImpl) FindAll(search *dto.Search) []response.UserR
 
 func (userService *UserServiceImpl) FindAllPagination(search *dto.Search, pagination *dto.Pagination) response.PaginationResponse {
 	users := userService.UserRepository.FindAllPagination(search, pagination)
-	totalItem := userService.UserRepository.FindTotalItem()
+	totalItem := userService.UserRepository.FindTotalItem(search)
 
 	responses := response.ToUserResponses(users)
 	return response.ToPaginationResponse(responses, pagination.PageNumber, pagination.PageSize, totalItem)

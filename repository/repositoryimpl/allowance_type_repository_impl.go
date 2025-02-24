@@ -68,10 +68,11 @@ func (atRepository *AllowanceTypeRepositoryImpl) FindAllPagination(search *dto.S
 	return allowanceTypes
 }
 
-func (atRepository *AllowanceTypeRepositoryImpl) FindTotalItem() int64 {
+func (atRepository *AllowanceTypeRepositoryImpl) FindTotalItem(search *dto.Search) int64 {
 	var totalItem int64
 	atRepository.DB.
 		Model(&domain.AllowanceType{}).
+		Where(atRepository.searchLike(), helper.StringQueryLike(search.Value)).
 		Count(&totalItem)
 	return totalItem
 }

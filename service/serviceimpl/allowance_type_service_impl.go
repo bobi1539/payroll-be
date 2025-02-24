@@ -73,7 +73,7 @@ func (atService *AllowanceTypeServiceImpl) FindAll(search *dto.Search) []respons
 
 func (atService *AllowanceTypeServiceImpl) FindAllPagination(search *dto.Search, pagination *dto.Pagination) response.PaginationResponse {
 	allowanceTypes := atService.AllowanceTypeRepository.FindAllPagination(search, pagination)
-	totalItem := atService.AllowanceTypeRepository.FindTotalItem()
+	totalItem := atService.AllowanceTypeRepository.FindTotalItem(search)
 
 	responses := response.ToAllowanceTypeResponses(allowanceTypes)
 	return response.ToPaginationResponse(responses, pagination.PageNumber, pagination.PageSize, totalItem)

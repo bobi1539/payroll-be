@@ -73,7 +73,7 @@ func (positionService *PositionServiceImpl) FindAll(search *dto.Search) []respon
 
 func (positionService *PositionServiceImpl) FindAllPagination(search *dto.Search, pagination *dto.Pagination) response.PaginationResponse {
 	positions := positionService.PositionRepository.FindAllPagination(search, pagination)
-	totalItem := positionService.PositionRepository.FindTotalItem()
+	totalItem := positionService.PositionRepository.FindTotalItem(search)
 
 	responses := response.ToPositionResponses(positions)
 	return response.ToPaginationResponse(responses, pagination.PageNumber, pagination.PageSize, totalItem)
