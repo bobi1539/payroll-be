@@ -7,6 +7,7 @@ import (
 	"payroll/model/dto"
 	"payroll/model/request"
 	"payroll/model/response"
+	"payroll/model/search"
 	"payroll/repository"
 	"payroll/service"
 
@@ -69,13 +70,13 @@ func (basicSalaryService *BasicSalaryServiceImpl) FindByIdDomain(id int64) *doma
 	return basicSalary
 }
 
-func (basicSalaryService *BasicSalaryServiceImpl) FindAll() []response.BasicSalaryResponse {
-	basicSalaries := basicSalaryService.BasicSalaryRepository.FindAll()
+func (basicSalaryService *BasicSalaryServiceImpl) FindAll(search *search.BasicSalarySearch) []response.BasicSalaryResponse {
+	basicSalaries := basicSalaryService.BasicSalaryRepository.FindAll(search)
 	return response.ToBasicSalaryResponses(basicSalaries)
 }
 
-func (basicSalaryService *BasicSalaryServiceImpl) FindAllPagination(pagination *dto.Pagination) response.PaginationResponse {
-	basicSalaries := basicSalaryService.BasicSalaryRepository.FindAllPagination(pagination)
+func (basicSalaryService *BasicSalaryServiceImpl) FindAllPagination(search *search.BasicSalarySearch, pagination *dto.Pagination) response.PaginationResponse {
+	basicSalaries := basicSalaryService.BasicSalaryRepository.FindAllPagination(search, pagination)
 	totalItem := basicSalaryService.BasicSalaryRepository.FindTotalItem()
 
 	responses := response.ToBasicSalaryResponses(basicSalaries)

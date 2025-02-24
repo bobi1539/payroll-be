@@ -6,6 +6,7 @@ import (
 	"payroll/exception"
 	"payroll/model/domain"
 	"payroll/model/dto"
+	"payroll/model/search"
 	"payroll/repository"
 
 	"github.com/gofiber/fiber/v2"
@@ -49,19 +50,21 @@ func (basicSalaryRepository *BasicSalaryRepositoryImpl) FindById(id int64) (*dom
 	return basicSalary, nil
 }
 
-func (basicSalaryRepository *BasicSalaryRepositoryImpl) FindAll() []domain.BasicSalary {
+func (basicSalaryRepository *BasicSalaryRepositoryImpl) FindAll(search *search.BasicSalarySearch) []domain.BasicSalary {
 	var basicSalaries []domain.BasicSalary
 	basicSalaryRepository.DB.
 		Preload(domain.POSITION).
+		Where("position_id = ?", search.PositionId).
 		Order("id ASC").
 		Find(&basicSalaries)
 	return basicSalaries
 }
 
-func (basicSalaryRepository *BasicSalaryRepositoryImpl) FindAllPagination(pagination *dto.Pagination) []domain.BasicSalary {
+func (basicSalaryRepository *BasicSalaryRepositoryImpl) FindAllPagination(search *search.BasicSalarySearch, pagination *dto.Pagination) []domain.BasicSalary {
 	var basicSalaries []domain.BasicSalary
 	basicSalaryRepository.DB.
 		Preload(domain.POSITION).
+		Where("position_id = ?", search.PositionId).
 		Order("id ASC").
 		Offset(pagination.PageNumber).
 		Limit(pagination.PageSize).

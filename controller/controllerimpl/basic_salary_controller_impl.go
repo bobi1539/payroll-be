@@ -6,6 +6,7 @@ import (
 	"payroll/helper"
 	"payroll/model/dto"
 	"payroll/model/request"
+	"payroll/model/search"
 	"payroll/service"
 
 	"github.com/gofiber/fiber/v2"
@@ -75,19 +76,22 @@ func (basicSalaryController *BasicSalaryControllerImpl) FindById(ctx *fiber.Ctx)
 // @Tags	BasicSalary
 // @Accept	json
 // @Produce	json
+// @Param   positionId  	query	number	true	"Position Id"
 // @Success	200	{object}	response.WebResponse{data=[]response.BasicSalaryResponse}
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
 // @Router	/basic-salaries/all		[get]
 // @Security 				BearerAuth
 func (basicSalaryController *BasicSalaryControllerImpl) FindAll(ctx *fiber.Ctx) error {
-	response := basicSalaryController.BasicSalaryService.FindAll()
+	bsSearch := search.BuildBasicSalarySearch(ctx.Query(constant.POSITION_ID))
+	response := basicSalaryController.BasicSalaryService.FindAll(&bsSearch)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 
 // @Tags	BasicSalary
 // @Accept	json
 // @Produce	json
+// @Param   positionId  	query	number	true	"Position Id"
 // @Param   pageNumber  	query	string	false	"Page Number"	default(1)
 // @Param   pageSize  		query	string	false	"Page Size"		default(10)
 // @Success	200	{object}	response.WebResponse{data=[]response.PaginationResponse}
@@ -96,11 +100,13 @@ func (basicSalaryController *BasicSalaryControllerImpl) FindAll(ctx *fiber.Ctx) 
 // @Router	/basic-salaries	[get]
 // @Security 				BearerAuth
 func (basicSalaryController *BasicSalaryControllerImpl) FindAllPagination(ctx *fiber.Ctx) error {
+	bsSearch := search.BuildBasicSalarySearch(ctx.Query(constant.POSITION_ID))
+
 	pageNumber := ctx.Query(constant.PAGE_NUMBER)
 	pageSize := ctx.Query(constant.PAGE_SIZE)
 	pagination := dto.BuildPagination(pageNumber, pageSize)
 
-	response := basicSalaryController.BasicSalaryService.FindAllPagination(&pagination)
+	response := basicSalaryController.BasicSalaryService.FindAllPagination(&bsSearch, &pagination)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 

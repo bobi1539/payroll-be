@@ -5,6 +5,7 @@ import (
 	"payroll/model/dto"
 	"payroll/model/request"
 	"payroll/model/response"
+	"payroll/model/search"
 )
 
 type BasicSalaryService interface {
@@ -12,7 +13,7 @@ type BasicSalaryService interface {
 	Update(id int64, request *request.BasicSalaryRequest, header dto.Header) response.BasicSalaryResponse
 	FindById(id int64) response.BasicSalaryResponse
 	FindByIdDomain(id int64) *domain.BasicSalary
-	FindAll() []response.BasicSalaryResponse
-	FindAllPagination(pagination *dto.Pagination) response.PaginationResponse
+	FindAll(search *search.BasicSalarySearch) []response.BasicSalaryResponse
+	FindAllPagination(search *search.BasicSalarySearch, pagination *dto.Pagination) response.PaginationResponse
 	Delete(id int64) response.BasicSalaryResponse
 }
