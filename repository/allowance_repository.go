@@ -11,6 +11,7 @@ type AllowanceRepository interface {
 	Update(allowance *domain.Allowance) *domain.Allowance
 	Delete(id int64)
 	FindById(id int64) (*domain.Allowance, error)
+	FindByPositionIdAndAllowanceTypeId(positionId int64, allowanceTypeId int64) (*domain.Allowance, error)
 	FindAll(search *search.AllowanceSearch) []domain.Allowance
 	FindAllPagination(search *search.AllowanceSearch, pagination *dto.Pagination) []domain.Allowance
 	FindTotalItem(search *search.AllowanceSearch) int64

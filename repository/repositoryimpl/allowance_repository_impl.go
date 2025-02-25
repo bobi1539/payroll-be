@@ -51,6 +51,19 @@ func (allowanceRepository *AllowanceRepositoryImpl) FindById(id int64) (*domain.
 	return allowance, nil
 }
 
+func (allowanceRepository *AllowanceRepositoryImpl) FindByPositionIdAndAllowanceTypeId(positionId int64, allowanceTypeId int64) (*domain.Allowance, error) {
+	allowance := &domain.Allowance{}
+	result := allowanceRepository.DB.
+		Preload(domain.POSITION).
+		Preload(domain.ALLOWANCE_TYPE).
+		First(allowance, "position_id = ? AND allowance_type_id = ?", positionId, allowanceTypeId)
+
+	if result.Error != nil {
+		return nil, errors.New(constant.ALLOWANCE_NOT_FOUND)
+	}
+	return allowance, nil
+}
+
 func (allowanceRepository *AllowanceRepositoryImpl) FindAll(search *search.AllowanceSearch) []domain.Allowance {
 	var allowances []domain.Allowance
 	allowanceRepository.DB.

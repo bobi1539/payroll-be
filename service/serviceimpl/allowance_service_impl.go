@@ -1,6 +1,8 @@
 package serviceimpl
 
 import (
+	"errors"
+	"payroll/constant"
 	"payroll/exception"
 	"payroll/helper"
 	"payroll/model/domain"
@@ -41,6 +43,7 @@ func NewAllowanceServiceImpl(
 
 func (allowanceService *AllowanceServiceImpl) Create(request *request.AllowanceRequest, header dto.Header) response.AllowanceResponse {
 	allowanceService.validateRequest(request)
+	allowanceService.validateCreate(request)
 	user := allowanceService.UserService.FindByIdDomain(header.UserId)
 
 	allowance := &domain.Allowance{}
@@ -56,6 +59,8 @@ func (allowanceService *AllowanceServiceImpl) Update(id int64, request *request.
 	user := allowanceService.UserService.FindByIdDomain(header.UserId)
 
 	allowance := allowanceService.FindByIdDomain(id)
+	allowanceService.validateUpdate(request, allowance)
+
 	allowanceService.setAllowance(allowance, request)
 	helper.SetUpdated(&allowance.BaseDomain, user)
 
@@ -95,6 +100,20 @@ func (allowanceService *AllowanceServiceImpl) Delete(id int64) response.Allowanc
 func (allowanceService *AllowanceServiceImpl) validateRequest(request *request.AllowanceRequest) {
 	err := allowanceService.Validate.Struct(request)
 	exception.PanicErrorBusiness(fiber.StatusBadRequest, err)
+}
+
+func (allowanceService *AllowanceServiceImpl) validateCreate(request *request.AllowanceRequest) {
+	allowance, _ := allowanceService.AllowanceRepository.FindByPositionIdAndAllowanceTypeId(request.PositionId, request.AllowanceTypeId)
+	if allowance != nil {
+		exception.PanicErrorBusiness(fiber.StatusBadRequest, errors.New(constant.ALLOWANCE_TYPE_ALREADY_EXIST))
+	}
+}
+
+func (allowanceService *AllowanceServiceImpl) validateUpdate(request *request.AllowanceRequest, allowanceExisting *domain.Allowance) {
+	allowance, _ := allowanceService.AllowanceRepository.FindByPositionIdAndAllowanceTypeId(request.PositionId, request.AllowanceTypeId)
+	if allowance != nil && allowance.Id != allowanceExisting.Id {
+		exception.PanicErrorBusiness(fiber.StatusBadRequest, errors.New(constant.ALLOWANCE_TYPE_ALREADY_EXIST))
+	}
 }
 
 func (allowanceService *AllowanceServiceImpl) setAllowance(allowance *domain.Allowance, request *request.AllowanceRequest) {

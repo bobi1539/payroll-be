@@ -54,7 +54,7 @@ func (bsRepository *BasicSalaryRepositoryImpl) FindByPositionIdAndTotalYear(posi
 	basicSalary := &domain.BasicSalary{}
 	result := bsRepository.DB.
 		Preload(domain.POSITION).
-		First(basicSalary, "position_id = ? and total_year = ?", positionId, totalyear)
+		First(basicSalary, "position_id = ? AND total_year = ?", positionId, totalyear)
 
 	if result.Error != nil {
 		return nil, errors.New(constant.BASIC_SALARY_NOT_FOUND)
