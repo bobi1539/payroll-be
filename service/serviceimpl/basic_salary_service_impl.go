@@ -96,6 +96,6 @@ func (basicSalaryService *BasicSalaryServiceImpl) validateRequest(request *reque
 
 func (basicSalaryService *BasicSalaryServiceImpl) setBasicSalary(basicSalary *domain.BasicSalary, request *request.BasicSalaryRequest) {
 	basicSalary.SalaryAmount = request.SalaryAmount
-	basicSalary.TotalYear = request.TotalYear
+	basicSalary.TotalYear = *request.TotalYear
 	basicSalary.Position = basicSalaryService.PositionService.FindByIdDomain(request.PositionId)
 }
