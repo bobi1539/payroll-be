@@ -21,26 +21,26 @@ func NewBasicSalaryRepositoryImpl(db *gorm.DB) repository.BasicSalaryRepository 
 	return &BasicSalaryRepositoryImpl{DB: db}
 }
 
-func (basicSalaryRepository *BasicSalaryRepositoryImpl) Create(basicSalary *domain.BasicSalary) *domain.BasicSalary {
-	basicSalaryRepository.DB.Create(basicSalary)
+func (bsRepository *BasicSalaryRepositoryImpl) Create(basicSalary *domain.BasicSalary) *domain.BasicSalary {
+	bsRepository.DB.Create(basicSalary)
 	return basicSalary
 }
 
-func (basicSalaryRepository *BasicSalaryRepositoryImpl) Update(basicSalary *domain.BasicSalary) *domain.BasicSalary {
-	basicSalaryRepository.DB.Save(basicSalary)
+func (bsRepository *BasicSalaryRepositoryImpl) Update(basicSalary *domain.BasicSalary) *domain.BasicSalary {
+	bsRepository.DB.Save(basicSalary)
 	return basicSalary
 }
 
-func (basicSalaryRepository *BasicSalaryRepositoryImpl) Delete(id int64) {
-	result := basicSalaryRepository.DB.Where("id = ?", id).Delete(&domain.BasicSalary{})
+func (bsRepository *BasicSalaryRepositoryImpl) Delete(id int64) {
+	result := bsRepository.DB.Where("id = ?", id).Delete(&domain.BasicSalary{})
 	if result.Error != nil {
 		exception.PanicErrorBusiness(fiber.StatusBadRequest, errors.New(constant.CANNOT_DELETE_THIS_DATA))
 	}
 }
 
-func (basicSalaryRepository *BasicSalaryRepositoryImpl) FindById(id int64) (*domain.BasicSalary, error) {
+func (bsRepository *BasicSalaryRepositoryImpl) FindById(id int64) (*domain.BasicSalary, error) {
 	basicSalary := &domain.BasicSalary{}
-	result := basicSalaryRepository.DB.
+	result := bsRepository.DB.
 		Preload(domain.POSITION).
 		First(basicSalary, "id = ?", id)
 
@@ -50,21 +50,21 @@ func (basicSalaryRepository *BasicSalaryRepositoryImpl) FindById(id int64) (*dom
 	return basicSalary, nil
 }
 
-func (basicSalaryRepository *BasicSalaryRepositoryImpl) FindAll(search *search.BasicSalarySearch) []domain.BasicSalary {
+func (bsRepository *BasicSalaryRepositoryImpl) FindAll(search *search.BasicSalarySearch) []domain.BasicSalary {
 	var basicSalaries []domain.BasicSalary
-	basicSalaryRepository.DB.
+	bsRepository.DB.
 		Preload(domain.POSITION).
-		Where("position_id = ?", search.PositionId).
+		Where(bsRepository.searchEqual(), search.PositionId).
 		Order("id ASC").
 		Find(&basicSalaries)
 	return basicSalaries
 }
 
-func (basicSalaryRepository *BasicSalaryRepositoryImpl) FindAllPagination(search *search.BasicSalarySearch, pagination *dto.Pagination) []domain.BasicSalary {
+func (bsRepository *BasicSalaryRepositoryImpl) FindAllPagination(search *search.BasicSalarySearch, pagination *dto.Pagination) []domain.BasicSalary {
 	var basicSalaries []domain.BasicSalary
-	basicSalaryRepository.DB.
+	bsRepository.DB.
 		Preload(domain.POSITION).
-		Where("position_id = ?", search.PositionId).
+		Where(bsRepository.searchEqual(), search.PositionId).
 		Order("id ASC").
 		Offset(pagination.PageNumber).
 		Limit(pagination.PageSize).
@@ -72,10 +72,15 @@ func (basicSalaryRepository *BasicSalaryRepositoryImpl) FindAllPagination(search
 	return basicSalaries
 }
 
-func (basicSalaryRepository *BasicSalaryRepositoryImpl) FindTotalItem() int64 {
+func (bsRepository *BasicSalaryRepositoryImpl) FindTotalItem(search *search.BasicSalarySearch) int64 {
 	var totalItem int64
-	basicSalaryRepository.DB.
+	bsRepository.DB.
 		Model(&domain.BasicSalary{}).
+		Where(bsRepository.searchEqual(), search.PositionId).
 		Count(&totalItem)
 	return totalItem
+}
+
+func (bsRepository *BasicSalaryRepositoryImpl) searchEqual() string {
+	return "position_id = ?"
 }

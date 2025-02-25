@@ -477,6 +477,11 @@ paths:
       consumes:
       - application/json
       parameters:
+      - description: Position Id
+        in: query
+        name: positionId
+        required: true
+        type: number
       - default: "1"
         description: Page Number
         in: query
@@ -551,6 +556,12 @@ paths:
     get:
       consumes:
       - application/json
+      parameters:
+      - description: Position Id
+        in: query
+        name: positionId
+        required: true
+        type: number
       produces:
       - application/json
       responses:

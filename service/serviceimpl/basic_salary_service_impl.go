@@ -77,7 +77,7 @@ func (basicSalaryService *BasicSalaryServiceImpl) FindAll(search *search.BasicSa
 
 func (basicSalaryService *BasicSalaryServiceImpl) FindAllPagination(search *search.BasicSalarySearch, pagination *dto.Pagination) response.PaginationResponse {
 	basicSalaries := basicSalaryService.BasicSalaryRepository.FindAllPagination(search, pagination)
-	totalItem := basicSalaryService.BasicSalaryRepository.FindTotalItem()
+	totalItem := basicSalaryService.BasicSalaryRepository.FindTotalItem(search)
 
 	responses := response.ToBasicSalaryResponses(basicSalaries)
 	return response.ToPaginationResponse(responses, pagination.PageNumber, pagination.PageSize, totalItem)

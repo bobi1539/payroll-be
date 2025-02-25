@@ -13,5 +13,5 @@ type BasicSalaryRepository interface {
 	FindById(id int64) (*domain.BasicSalary, error)
 	FindAll(search *search.BasicSalarySearch) []domain.BasicSalary
 	FindAllPagination(search *search.BasicSalarySearch, pagination *dto.Pagination) []domain.BasicSalary
-	FindTotalItem() int64
+	FindTotalItem(search *search.BasicSalarySearch) int64
 }

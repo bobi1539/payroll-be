@@ -7,6 +7,7 @@ import (
 	"payroll/model/dto"
 	"payroll/model/request"
 	"payroll/model/response"
+	"payroll/model/search"
 	"payroll/repository"
 	"payroll/service"
 
@@ -72,14 +73,14 @@ func (allowanceService *AllowanceServiceImpl) FindByIdDomain(id int64) *domain.A
 	return allowance
 }
 
-func (allowanceService *AllowanceServiceImpl) FindAll() []response.AllowanceResponse {
-	allowances := allowanceService.AllowanceRepository.FindAll()
+func (allowanceService *AllowanceServiceImpl) FindAll(search *search.AllowanceSearch) []response.AllowanceResponse {
+	allowances := allowanceService.AllowanceRepository.FindAll(search)
 	return response.ToAllowanceResponses(allowances)
 }
 
-func (allowanceService *AllowanceServiceImpl) FindAllPagination(pagination *dto.Pagination) response.PaginationResponse {
-	allowances := allowanceService.AllowanceRepository.FindAllPagination(pagination)
-	totalItem := allowanceService.AllowanceRepository.FindTotalItem()
+func (allowanceService *AllowanceServiceImpl) FindAllPagination(search *search.AllowanceSearch, pagination *dto.Pagination) response.PaginationResponse {
+	allowances := allowanceService.AllowanceRepository.FindAllPagination(search, pagination)
+	totalItem := allowanceService.AllowanceRepository.FindTotalItem(search)
 
 	responses := response.ToAllowanceResponses(allowances)
 	return response.ToPaginationResponse(responses, pagination.PageNumber, pagination.PageSize, totalItem)

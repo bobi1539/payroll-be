@@ -3,6 +3,7 @@ package repository
 import (
 	"payroll/model/domain"
 	"payroll/model/dto"
+	"payroll/model/search"
 )
 
 type AllowanceRepository interface {
@@ -10,7 +11,7 @@ type AllowanceRepository interface {
 	Update(allowance *domain.Allowance) *domain.Allowance
 	Delete(id int64)
 	FindById(id int64) (*domain.Allowance, error)
-	FindAll() []domain.Allowance
-	FindAllPagination(pagination *dto.Pagination) []domain.Allowance
-	FindTotalItem() int64
+	FindAll(search *search.AllowanceSearch) []domain.Allowance
+	FindAllPagination(search *search.AllowanceSearch, pagination *dto.Pagination) []domain.Allowance
+	FindTotalItem(search *search.AllowanceSearch) int64
 }

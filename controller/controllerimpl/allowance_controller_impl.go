@@ -6,6 +6,7 @@ import (
 	"payroll/helper"
 	"payroll/model/dto"
 	"payroll/model/request"
+	"payroll/model/search"
 	"payroll/service"
 
 	"github.com/gofiber/fiber/v2"
@@ -75,19 +76,22 @@ func (allowanceController *AllowanceControllerImpl) FindById(ctx *fiber.Ctx) err
 // @Tags	Allowance
 // @Accept	json
 // @Produce	json
+// @Param   positionId  	query	number	true	"Position Id"
 // @Success	200	{object}	response.WebResponse{data=[]response.AllowanceResponse}
 // @Failure	400	{object}	response.WebResponse
 // @Failure	500	{object}	response.WebResponse
 // @Router	/allowances/all	[get]
 // @Security 				BearerAuth
 func (allowanceController *AllowanceControllerImpl) FindAll(ctx *fiber.Ctx) error {
-	response := allowanceController.AllowanceService.FindAll()
+	aSearch := search.BuildAllowanceSearch(ctx.Query(constant.POSITION_ID))
+	response := allowanceController.AllowanceService.FindAll(&aSearch)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 
 // @Tags	Allowance
 // @Accept	json
 // @Produce	json
+// @Param   positionId  	query	number	true	"Position Id"
 // @Param   pageNumber  	query	string	false	"Page Number"	default(1)
 // @Param   pageSize  		query	string	false	"Page Size"		default(10)
 // @Success	200	{object}	response.WebResponse{data=[]response.PaginationResponse}
@@ -96,11 +100,13 @@ func (allowanceController *AllowanceControllerImpl) FindAll(ctx *fiber.Ctx) erro
 // @Router	/allowances		[get]
 // @Security 				BearerAuth
 func (allowanceController *AllowanceControllerImpl) FindAllPagination(ctx *fiber.Ctx) error {
+	aSearch := search.BuildAllowanceSearch(ctx.Query(constant.POSITION_ID))
+
 	pageNumber := ctx.Query(constant.PAGE_NUMBER)
 	pageSize := ctx.Query(constant.PAGE_SIZE)
 	pagination := dto.BuildPagination(pageNumber, pageSize)
 
-	response := allowanceController.AllowanceService.FindAllPagination(&pagination)
+	response := allowanceController.AllowanceService.FindAllPagination(&aSearch, &pagination)
 	return ctx.JSON(helper.BuildSuccessResponse(response))
 }
 

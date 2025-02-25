@@ -6,6 +6,7 @@ import (
 	"payroll/exception"
 	"payroll/model/domain"
 	"payroll/model/dto"
+	"payroll/model/search"
 	"payroll/repository"
 
 	"github.com/gofiber/fiber/v2"
@@ -50,21 +51,23 @@ func (allowanceRepository *AllowanceRepositoryImpl) FindById(id int64) (*domain.
 	return allowance, nil
 }
 
-func (allowanceRepository *AllowanceRepositoryImpl) FindAll() []domain.Allowance {
+func (allowanceRepository *AllowanceRepositoryImpl) FindAll(search *search.AllowanceSearch) []domain.Allowance {
 	var allowances []domain.Allowance
 	allowanceRepository.DB.
 		Preload(domain.POSITION).
 		Preload(domain.ALLOWANCE_TYPE).
+		Where(allowanceRepository.searchEqual(), search.PositionId).
 		Order("id ASC").
 		Find(&allowances)
 	return allowances
 }
 
-func (allowanceRepository *AllowanceRepositoryImpl) FindAllPagination(pagination *dto.Pagination) []domain.Allowance {
+func (allowanceRepository *AllowanceRepositoryImpl) FindAllPagination(search *search.AllowanceSearch, pagination *dto.Pagination) []domain.Allowance {
 	var allowances []domain.Allowance
 	allowanceRepository.DB.
 		Preload(domain.POSITION).
 		Preload(domain.ALLOWANCE_TYPE).
+		Where(allowanceRepository.searchEqual(), search.PositionId).
 		Order("id ASC").
 		Offset(pagination.PageNumber).
 		Limit(pagination.PageSize).
@@ -72,10 +75,15 @@ func (allowanceRepository *AllowanceRepositoryImpl) FindAllPagination(pagination
 	return allowances
 }
 
-func (allowanceRepository *AllowanceRepositoryImpl) FindTotalItem() int64 {
+func (allowanceRepository *AllowanceRepositoryImpl) FindTotalItem(search *search.AllowanceSearch) int64 {
 	var totalItem int64
 	allowanceRepository.DB.
 		Model(&domain.Allowance{}).
+		Where(allowanceRepository.searchEqual(), search.PositionId).
 		Count(&totalItem)
 	return totalItem
+}
+
+func (allowanceRepository *AllowanceRepositoryImpl) searchEqual() string {
+	return "position_id = ?"
 }

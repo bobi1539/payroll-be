@@ -410,6 +410,13 @@ const docTemplate = `{
                 ],
                 "parameters": [
                     {
+                        "type": "number",
+                        "description": "Position Id",
+                        "name": "positionId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
                         "type": "string",
                         "default": "1",
                         "description": "Page Number",
@@ -535,6 +542,15 @@ const docTemplate = `{
                 ],
                 "tags": [
                     "Allowance"
+                ],
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "Position Id",
+                        "name": "positionId",
+                        "in": "query",
+                        "required": true
+                    }
                 ],
                 "responses": {
                     "200": {
