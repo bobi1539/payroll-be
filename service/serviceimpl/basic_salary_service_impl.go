@@ -1,6 +1,8 @@
 package serviceimpl
 
 import (
+	"errors"
+	"payroll/constant"
 	"payroll/exception"
 	"payroll/helper"
 	"payroll/model/domain"
@@ -38,6 +40,7 @@ func NewBasicSalaryServiceImpl(
 
 func (basicSalaryService *BasicSalaryServiceImpl) Create(request *request.BasicSalaryRequest, header dto.Header) response.BasicSalaryResponse {
 	basicSalaryService.validateRequest(request)
+	basicSalaryService.validateCreateTotalYear(request)
 	user := basicSalaryService.UserService.FindByIdDomain(header.UserId)
 
 	basicSalary := &domain.BasicSalary{}
@@ -53,6 +56,8 @@ func (basicSalaryService *BasicSalaryServiceImpl) Update(id int64, request *requ
 	user := basicSalaryService.UserService.FindByIdDomain(header.UserId)
 
 	basicSalary := basicSalaryService.FindByIdDomain(id)
+	basicSalaryService.validateUpdateTotalYear(request, basicSalary)
+
 	basicSalaryService.setBasicSalary(basicSalary, request)
 	helper.SetUpdated(&basicSalary.BaseDomain, user)
 
@@ -92,6 +97,20 @@ func (basicSalaryService *BasicSalaryServiceImpl) Delete(id int64) response.Basi
 func (basicSalaryService *BasicSalaryServiceImpl) validateRequest(request *request.BasicSalaryRequest) {
 	err := basicSalaryService.Validate.Struct(request)
 	exception.PanicErrorBusiness(fiber.StatusBadRequest, err)
+}
+
+func (basicSalaryService *BasicSalaryServiceImpl) validateCreateTotalYear(request *request.BasicSalaryRequest) {
+	basicSalary, _ := basicSalaryService.BasicSalaryRepository.FindByPositionIdAndTotalYear(request.PositionId, *request.TotalYear)
+	if basicSalary != nil {
+		exception.PanicErrorBusiness(fiber.StatusBadRequest, errors.New(constant.TOTAL_YEAR_ALREADY_EXIST))
+	}
+}
+
+func (basicSalaryService *BasicSalaryServiceImpl) validateUpdateTotalYear(request *request.BasicSalaryRequest, basicSalaryExisting *domain.BasicSalary) {
+	basicSalary, _ := basicSalaryService.BasicSalaryRepository.FindByPositionIdAndTotalYear(request.PositionId, *request.TotalYear)
+	if basicSalary != nil && basicSalary.Id != basicSalaryExisting.Id {
+		exception.PanicErrorBusiness(fiber.StatusBadRequest, errors.New(constant.TOTAL_YEAR_ALREADY_EXIST))
+	}
 }
 
 func (basicSalaryService *BasicSalaryServiceImpl) setBasicSalary(basicSalary *domain.BasicSalary, request *request.BasicSalaryRequest) {

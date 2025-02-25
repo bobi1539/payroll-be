@@ -50,6 +50,18 @@ func (bsRepository *BasicSalaryRepositoryImpl) FindById(id int64) (*domain.Basic
 	return basicSalary, nil
 }
 
+func (bsRepository *BasicSalaryRepositoryImpl) FindByPositionIdAndTotalYear(positionId int64, totalyear int32) (*domain.BasicSalary, error) {
+	basicSalary := &domain.BasicSalary{}
+	result := bsRepository.DB.
+		Preload(domain.POSITION).
+		First(basicSalary, "position_id = ? and total_year = ?", positionId, totalyear)
+
+	if result.Error != nil {
+		return nil, errors.New(constant.BASIC_SALARY_NOT_FOUND)
+	}
+	return basicSalary, nil
+}
+
 func (bsRepository *BasicSalaryRepositoryImpl) FindAll(search *search.BasicSalarySearch) []domain.BasicSalary {
 	var basicSalaries []domain.BasicSalary
 	bsRepository.DB.
