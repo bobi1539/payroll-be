@@ -13,7 +13,7 @@ type EmployeeRequest struct {
 	Npwp              string    `validate:"required" json:"npwp"`
 	DateOfBirth       time.Time `validate:"required" json:"dateOfBirth"`
 	JoinDate          time.Time `validate:"required" json:"joinDate"`
-	IsMarried         bool      `validate:"required" json:"isMarried"`
+	IsMarried         *bool     `validate:"required" json:"isMarried"`
 	TotalChild        *int32    `validate:"required" json:"totalChild"`
 	PositionId        int64     `validate:"required" json:"positionId"`
 }

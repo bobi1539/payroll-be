@@ -33,6 +33,49 @@ definitions:
     - salaryAmount
     - totalYear
     type: object
+  request.EmployeeRequest:
+    properties:
+      address:
+        type: string
+      bankAccountName:
+        type: string
+      bankAccountNumber:
+        type: string
+      dateOfBirth:
+        type: string
+      email:
+        type: string
+      isMarried:
+        type: boolean
+      joinDate:
+        type: string
+      name:
+        type: string
+      npwp:
+        type: string
+      phoneNumber:
+        type: string
+      positionId:
+        type: integer
+      totalChild:
+        type: integer
+      workStatus:
+        type: string
+    required:
+    - address
+    - bankAccountName
+    - bankAccountNumber
+    - dateOfBirth
+    - email
+    - isMarried
+    - joinDate
+    - name
+    - npwp
+    - phoneNumber
+    - positionId
+    - totalChild
+    - workStatus
+    type: object
   request.LoginRefreshTokenRequest:
     properties:
       refreshToken:
@@ -156,6 +199,49 @@ definitions:
       updatedBy:
         type: integer
       updatedByName:
+        type: string
+    type: object
+  response.EmployeeResponse:
+    properties:
+      address:
+        type: string
+      bankAccountName:
+        type: string
+      bankAccountNumber:
+        type: string
+      createdAt:
+        type: string
+      createdBy:
+        type: integer
+      createdByName:
+        type: string
+      dateOfBirth:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      isMarried:
+        type: boolean
+      joinDate:
+        type: string
+      name:
+        type: string
+      npwp:
+        type: string
+      phoneNumber:
+        type: string
+      position:
+        $ref: '#/definitions/response.PositionResponse'
+      totalChild:
+        type: integer
+      updatedAt:
+        type: string
+      updatedBy:
+        type: integer
+      updatedByName:
+        type: string
+      workStatus:
         type: string
     type: object
   response.LoginResponse:
@@ -982,6 +1068,226 @@ paths:
       - BearerAuth: []
       tags:
       - BasicSalary
+  /employees:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Search
+        in: query
+        name: search
+        type: string
+      - default: "1"
+        description: Page Number
+        in: query
+        name: pageNumber
+        type: string
+      - default: "10"
+        description: Page Size
+        in: query
+        name: pageSize
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/response.PaginationResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - Employee
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.EmployeeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.EmployeeResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - Employee
+  /employees/all:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/response.EmployeeResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - Employee
+  /employees/id/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.EmployeeResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - Employee
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.EmployeeResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - Employee
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.EmployeeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.EmployeeResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.WebResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - Employee
   /positions:
     get:
       consumes:
