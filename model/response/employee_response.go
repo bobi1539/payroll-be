@@ -1,8 +1,8 @@
 package response
 
 import (
+	"payroll/constant"
 	"payroll/model/domain"
-	"time"
 )
 
 type EmployeeResponse struct {
@@ -15,8 +15,8 @@ type EmployeeResponse struct {
 	BankAccountNumber string           `json:"bankAccountNumber"`
 	BankAccountName   string           `json:"bankAccountName"`
 	Npwp              string           `json:"npwp"`
-	DateOfBirth       time.Time        `json:"dateOfBirth"`
-	JoinDate          time.Time        `json:"joinDate"`
+	DateOfBirth       string           `json:"dateOfBirth"`
+	JoinDate          string           `json:"joinDate"`
 	IsMarried         bool             `json:"isMarried"`
 	TotalChild        int32            `json:"totalChild"`
 	Position          PositionResponse `json:"position"`
@@ -34,8 +34,8 @@ func ToEmployeeResponse(employee *domain.Employee) EmployeeResponse {
 		BankAccountNumber:  employee.BankAccountNumber,
 		BankAccountName:    employee.BankAccountName,
 		Npwp:               employee.Npwp,
-		DateOfBirth:        employee.DateOfBirth,
-		JoinDate:           employee.JoinDate,
+		DateOfBirth:        employee.DateOfBirth.Format(constant.DATE_LAYOUT),
+		JoinDate:           employee.JoinDate.Format(constant.DATE_LAYOUT),
 		IsMarried:          employee.IsMarried,
 		TotalChild:         employee.TotalChild,
 		Position:           ToPositionResponse(employee.Position),

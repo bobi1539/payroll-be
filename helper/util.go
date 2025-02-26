@@ -3,8 +3,10 @@ package helper
 import (
 	"crypto/rand"
 	"math/big"
+	"payroll/constant"
 	"strconv"
 	"strings"
+	"time"
 	"unicode"
 
 	"github.com/sirupsen/logrus"
@@ -80,4 +82,10 @@ func GenerateRandomString(length int) string {
 		bytes[i] = charset[randomIndex.Int64()]
 	}
 	return string(bytes)
+}
+
+func FromStringToTime(value string) time.Time {
+	timeParsed, err := time.Parse(constant.DATE_LAYOUT, value)
+	PanicIfError(err)
+	return timeParsed
 }

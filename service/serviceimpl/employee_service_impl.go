@@ -103,8 +103,8 @@ func (employeeService *EmployeeServiceImpl) setEmployee(employee *domain.Employe
 	employee.BankAccountNumber = request.BankAccountNumber
 	employee.BankAccountName = request.BankAccountName
 	employee.Npwp = request.Npwp
-	employee.DateOfBirth = request.DateOfBirth
-	employee.JoinDate = request.JoinDate
+	employee.DateOfBirth = helper.FromStringToTime(request.DateOfBirth)
+	employee.JoinDate = helper.FromStringToTime(request.JoinDate)
 	employee.IsMarried = *request.IsMarried
 	employee.TotalChild = *request.TotalChild
 	employee.Position = employeeService.PositionService.FindByIdDomain(request.PositionId)
